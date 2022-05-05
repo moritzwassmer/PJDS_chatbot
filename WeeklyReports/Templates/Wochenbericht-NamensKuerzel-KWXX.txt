@@ -1,0 +1,29 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Xxxx Xxxxxx 
+
+Kalenderwoche: KW XX
+
+Datum: XX.XX.202X
+
+Aufgaben abgeschlossen (seit letzter Woche)
+* 
+*
+
+Aufgaben geplant für die aktuelle Woche
+*
+*
+*
+
+Probleme
+*
+*
+*
+
+Fragen
+*
+*
+*
+
+Weiteres
+
