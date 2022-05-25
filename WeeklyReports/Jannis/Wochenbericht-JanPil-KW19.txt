@@ -1,0 +1,29 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Xxxx Xxxxxx 
+
+Kalenderwoche: KW 19
+
+Datum: 11.05.2022
+
+Aufgaben abgeschlossen (seit letzter Woche)
+*Literaturecherche bzgl. Evaluation
+*verschiedene Evaluation-Measures entworfen
+*
+
+Aufgaben geplant für die aktuelle Woche
+*Methode zur Topic-Zuweisung aus Clustern überlegen
+*Folien vorbereiten
+*
+
+Probleme
+*Viele Measures sind Annotator-basiert oder brauchen produktive Nutzung
+*Measures bzgl. User-Interaction/-Zeit etc. brauchen genauere Analyse im Nachhinein, da Informationen zwar interessant sind, aber
+*
+
+Fragen
+*Sind Decision Trees evtl sinnvoller als Clustering?
+*
+*
+
+Weiteres
