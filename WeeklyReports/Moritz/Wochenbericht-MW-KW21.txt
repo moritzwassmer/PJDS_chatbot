@@ -1,0 +1,20 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Moritz Wassmer
+
+Aufgaben abgeschlossen (seit letzter Woche)
+- Evaluationsdatensatz erzeugen anhand der Dialogdaten
+
+Aufgaben geplant für die aktuelle Woche
+- Welche explizite Evaluationsmetrik verwenden?
+- Pipeline zur Evaluation (soweit benötigte Komponenten rechtzeitig fertig)
+- Idee von Jannis überprüfen (+implementieren?)
+
+Probleme
+
+
+Fragen
+- Stelle ich direkt
+
+Weiteres
+
