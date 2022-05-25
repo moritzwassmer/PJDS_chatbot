@@ -1,0 +1,26 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Moritz Wassmer
+
+Aufgaben abgeschlossen (seit letzter Woche)
+- Git einrichten
+- Literatursuche: Generating clarifying question in IR / dialogue Systems:
+	- https://arxiv.org/pdf/2009.11352.pdf
+	- https://dl.acm.org/doi/pdf/10.1145/3331184.3331265
+	- https://dl.acm.org/doi/abs/10.1145/3366423.3380126
+	- https://arxiv.org/pdf/1805.04655.pdf
+	--> Template basierende Fragegenerierung oder noch einfacher generische Frage stellen
+
+Aufgaben geplant für die aktuelle Woche
+- Wie evaluieren? -> Literatur
+- Milestone 1 Präsentationen vorbereiten
+
+
+Probleme
+- Related Work Ansätze nicht direkt für unser Projekt anwendbar
+
+Fragen
+- Stelle ich direkt
+
+Weiteres
+

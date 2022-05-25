@@ -1,0 +1,28 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Moritz Wassmer
+
+Aufgaben abgeschlossen (seit letzter Woche)
+- Erkenntnisse aus Related Work (Literatur genauer angeschaut)
+	- gefundene Ansätze ungeeignet, auf unseren Ansatz konzentrieren
+	- Evaluation anhand von IR Metriken denkbar (siehe unten)
+- Präsentation vorbereiten
+- Wie evaluieren?
+	- Evaluation anhand von (angepassten) IR Metriken am geeignetsten für unsere Problemstellung
+	
+
+
+Aufgaben geplant für die aktuelle Woche
+- Evaluationsdatensatz erzeugen anhand der Dialogdaten
+
+Probleme
+- Welche Metrik genau verwenden?
+- Wie kann in der Evaluation berücksichtigt werden, dass der Nutzer auch falsche Antworten geben könnte?
+	-> wie User simulieren?
+- Kein wirkliches Feedbacksignal in Dialogdaten, dass das gefunden wurde was gesucht wurde (Click auf Service nicht zwingend ausreichend)
+
+Fragen
+- Stelle ich direkt
+
+Weiteres
+
