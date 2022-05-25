@@ -1,0 +1,32 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jannis Pilgrim
+
+Kalenderwoche: KW 20
+
+Datum: 18.05.2022
+
+Aufgaben abgeschlossen (seit letzter Woche)
+*Ersten Clusteringversuch gestartet (K-Means, feste anzahl cluster) 
+*Clustering visualisiert in 2-D für Präsentation
+*Centroiden aus Clustering extrahiert als Beschreibung des Clusters
+*Präsentation vorbereitet & geübt
+
+Aufgaben geplant für die aktuelle Woche
+*Ersten Prototype entwickeln gemeinsam
+*Topic-extraction aus Clustern 
+*bei Evaluierungsmetriken helfen
+*
+
+Probleme
+*Clustering quasi "underfittet" : wegen fixer Clusteranzahl wird zB sehr spezifischer Service unter gar nicht zutreffendem Begriff gruppiert
+*
+*
+
+Fragen
+*
+*
+*
+
+Weiteres
+

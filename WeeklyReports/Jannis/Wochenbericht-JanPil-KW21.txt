@@ -1,0 +1,32 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jannis Pilgrim
+
+Kalenderwoche: KW 21
+
+Datum: 25.05.2022
+
+Aufgaben abgeschlossen (seit letzter Woche)
+*Eigene Klasse implementiert die 2 Methoden der Topic-Exraction aus bestehenden Clustern ermöglicht (Tfidf je cluster im vgl. zu allen keywords, und NER von Azure mit Score und category)
+*Neuen Approach entwickelt der anstelle von Cluster=>Topic Extraction=>Frage stellen funktioniert, nur über Keywords und danach in wievielen Dokumenten sie auftreten
+*+ einen automatisierten Weg der objektien Evaluierung:
+*Client der alle Services nacheinander abfragt bei unserem system, indem er erst das erste keyword query-ed und dann im dialog zum richtigen service kommen will. dabei trackt er die
+azahl dialoge um zum ziel zu kommen (Ressource eindeutig definiert oder in top 5) nach MIN/MAX/AVG/VAR
+
+Aufgaben geplant für die aktuelle Woche
+*Implementierung des neuen approaches und Bewertung der Performance
+*Erster versuch den evaluations-client zu implementieren
+*
+
+Probleme
+*Mit alten Approach: Topic zuweisung war "overfitted". Cluster als gesammtes betrachtet. Wenn in Dokument 1-5 je 5 mal "Wohnen" vorkam, in Dok 6 kein mal (aber alle in gleichem cluster), so wurde trotzdem dem cluster "Wohnen" als topic zugewiesen
+*
+*
+
+Fragen
+*Ist der neue approach machbar? (da er ja sehr stark auf den keywords basiert die nicht in jeder domain vorhanden sind)
+*
+*
+
+Weiteres
+
