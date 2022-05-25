@@ -1,0 +1,29 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jakob Kemmler
+
+Kalenderwoche: KW 21
+
+Datum: 25.5.2022
+
+Aufgaben abgeschlossen (seit letzter Woche)
+* Implementierung einer Klasse für Clustering
+*
+
+Aufgaben geplant für die aktuelle Woche
+* Parameterstudie des Clusterings und qualitative Analyse der Outputs
+*
+*
+
+Probleme
+*
+*
+*
+
+Fragen
+*
+*
+*
+
+Weiteres
+
