@@ -9,8 +9,6 @@ setwd("C:/Users/morit/OneDrive/UNI/Master/SS22/PJ DS/Repo/PJ-DS-Chatbot/Evaluier
 
 ### Data Import #####
 
-#TODO Weitere Dialogdaten
-
 dialogues_raw = list()
 for(file in list.files("dialogues")){
   dialogues_raw[[file]] = read_excel(paste("dialogues/",file,sep = "")) %>% mutate(file = file)
@@ -47,16 +45,31 @@ dialogues = dialogues %>%
   filter(selection_happenend == TRUE) %>% 
   select(.,-selection_happenend) %>%
   #
-  mutate(., suggestionCount = str_count(agentAnswerText, "\\.\\)")) %>% # Zählen wie viele vorschlaege gemacht werden
+  mutate(., 
+         suggestionCount = str_count(agentAnswerText, "\\.\\)"), #Zählen wie viele vorschlaege gemacht werden
+         ) %>%
+  # mutate(.,
+  #        suggestions = toString(unlist(regmatches(agentAnswerText, gregexpr("[[:digit:]]+", agentAnswerText))))
+  #        ) #%>%
   select(.,-agentAnswerText)
 
-  
+
+# test = "1.) Erstattung nach Infektionsschutzgesetz bei Tätigkeitsverbot/Quarantäne - Arbeitgeber/innen (329421) (Score: 12.087656)<br />2.) Entschädigung nach Infektionsschutzgesetz bei Tätigkeitsverbot/Quarantäne - Selbstständige (329424) (Score: 11.800799)"
+# #test = "142"
+# res = unlist(regmatches(test, gregexpr("[[:digit:]]+", test)))
+# readr::parse_number(res[seq(2,length(res),2)])
+
+
 # Services ####
 # asdf
-services = services_raw %>% select(., c(id, name, description))
+services = services_raw %>% 
+  select(., c(id, name, description))
+
+services$id = as.numeric(services$id)
 
 # eval pairs ####
-#eval_pairs = merge(dialogues,services,by.x = "documentId",by.y= "id", all.x = TRUE) %>% arrange(., file,dialogId, stateId)
+
+# Identifier für Questions
 eval_pairs = dialogues %>% 
   arrange(., file, dialogId, stateId) %>%
   mutate(temp_id = 0)
@@ -69,20 +82,53 @@ for(row in 1:nrow(eval_pairs)){
   eval_pairs$temp_id[row] = z
 }
 
-my_nth = function(x){
-  n = 1
-  result = 0
-  while(result==0){
-    if(n> length(x)){
+# Daten müssen sortiert seiN!!
+delete_rows_without_following_service_selection = function(subsett,key){ 
+  toDelete = c()
+  for(row in nrow(subsett):1){
+    if(subsett$documentId[row] != 0){
       break
     }else{
-      result = dplyr::nth(x,n)
-      n = n +1
+      toDelete = c(toDelete,row)
     }
   }
-  return(result)
+  if(length(toDelete)>0)
+    subsett = subsett[-c(toDelete),]
+  return(subsett)
 }
 
+# Daten müssen sortiert seiN!!
+use_following_service = function(subsett, key){
+  
+  search_first_service_selection = function(subsett){
+    my_nth = function(x){
+      n = 1
+      result = 0
+      while(result==0){
+        if(n> length(x)){
+          break
+        }else{
+          result = dplyr::nth(x,n)
+          n = n +1
+        }
+      }
+      return(result)
+    }
+    return(my_nth(subsett$documentId))
+  }
+  
+  for(row in nrow(subsett):1){
+    #print(subsett)
+    if(subsett$documentId[row] == 0){
+      subsett$documentId[row] = search_first_service_selection(subsett[-seq(1,row),])
+    }
+  }
+  
+  return(subsett)
+}
+
+# TEST
+#eval_pairs = eval_pairs %>% filter(., file == "20220131--quantEvalAllExcel.xlsx", dialogId == 397)
 eval_pairs = eval_pairs %>% 
   group_by(., dialogId, initialQuestion,temp_id, file) %>% 
   summarise(., 
@@ -93,16 +139,25 @@ eval_pairs = eval_pairs %>%
   ungroup(.) %>%
   #select(.,-temp_id) %>%
   group_by(., file, dialogId) %>%
-  mutate(., documentId = my_nth(documentId)) %>%
-  arrange(., file,temp_id)
+  arrange(., file,temp_id) %>%
+  group_modify(., delete_rows_without_following_service_selection) %>%
+  group_modify(., use_following_service)
+  
 
 
-### Beispiel FIlterung, CSV #####
-output = eval_pairs %>% 
-  filter(., suggestionCount > 1)
-
-output = output %>% #merge(output,services,by.x = "documentId",by.y= "id", all.x = TRUE) %>% 
+### Export, FIlter #####
+# bug wenn in by.x named der spalte verwendet wird
+output = merge(eval_pairs,select(services, -description),by.x = 6, by.y = 1, all.x = TRUE)
+output = output %>% 
+  filter(., 
+         suggestionCount > 1,
+         !is.na(name)
+         ) %>%
   arrange(., file,temp_id) %>%
   select(.,-temp_id)
-
 write_csv2(output, file="eval.csv")
+
+#names(services)[1] = "documentId"
+#pruf = merge(output,services,by.x = 5, by.y = 1, all.x = TRUE)
+
+
