@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[5]:
+# In[ ]:
 
 
 # -*- coding: utf-8 -*-
@@ -52,12 +52,14 @@ class Topic_determination:
         if(categorize_key!="False"):            
             self.categorize_text(key=categorize_key,endpoint="https://berlinbobbi.cognitiveservices.azure.com/",col_name="ssdsLemma")
         self.topics_to_service(clustered_by)
-        return self.df
+        return self.df,self.df_clus
         
     def group_by_cluster(self,col_name="ssdsLemma"):
-        df_work = self.df[[f"{col_name}_processed",f"{col_name}_cluster"]]
-        df_work=df_work.groupby([f"{col_name}_cluster"])[f"{col_name}_processed"].apply(lambda x: ' '.join(x)).reset_index()
-        self.df_clus=df_work
+        df_work2 = self.df[[f"{col_name}_processed",f"{col_name}_cluster"]]
+        df_work3=df_work2.groupby([f"{col_name}_cluster"])[f"{col_name}_processed"].apply(lambda x: ' '.join(x)).reset_index() 
+        df_work2=df_work2.groupby([f"{col_name}_cluster"])[f"{col_name}_processed"].agg('count').to_frame('c').reset_index()
+        df_work3['count']=df_work2['c']
+        self.df_clus=df_work3
     
     def return_topics(self,n=1,col_name="ssdsLemma"):
         vectorizer=TfidfVectorizer()
@@ -102,10 +104,4 @@ class Topic_determination:
                    
     
     
-
-
-# In[ ]:
-
-
-
 
