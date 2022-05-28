@@ -68,14 +68,16 @@ class Chatbot:
         # check if finished
         is_finished = n_row_aft == n_row_bef | n_row_aft == 0
 
+
+
+        # Refine Cluster + Topics
+        self.df = self.clusterer.run(self.df, firstCall = False) # TODO kann nicht 2 mal aufrufen
+        #self.df = self.topicdeterminator.run(self.df)
+
         if is_finished:
             return True
         else:
             return False
-
-        # Refine Cluster + Topics
-        self.df = self.clusterer.run(self.df)
-        self.df = self.topicdeterminator.run(self.df)
 
     def getSelectedClusterForQuestion(self): # TODO Silvio
         """

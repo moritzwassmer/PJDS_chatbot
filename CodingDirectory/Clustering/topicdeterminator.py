@@ -100,8 +100,3 @@ class TopicDeterminator:
             topic[i]=(sorted(summary,key=itemgetter(3),reverse=False))
             i+=1
         self.df_clus['categorized']=topic
-                         
-                   
-    
-    
-

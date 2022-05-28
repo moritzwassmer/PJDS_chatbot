@@ -24,7 +24,7 @@ def process_df_col(df, column, do_preprocessing=True, nlp_model= spacy.load('de_
     values = [clean_text(val, nlp_model) for val in values]
     if do_preprocessing:
         values = [preprocess_text(val, nlp_model) for val in values]
-    df[f"{column}_processed"] = values
+    df[f"{column}_processed"] = values # TODO
     return df
 
 class Clusterer:
@@ -36,7 +36,7 @@ class Clusterer:
         self.cluster_by = cluster_by
         self.nlp_model = nlp_model
 
-    def run(self, df):
+    def run(self, df, firstCall = True):
         """
             Returns Solar output in form of a dataframe with an annotation for the clustering for each resource.
 
@@ -53,9 +53,11 @@ class Clusterer:
                         df (pd.DataFrame): Solar output in form of a dataframe with an annotation for the clustering for
                         each resource.
         """
-
         # Preprocess column to be clustered
-        df = process_df_col(df, self.cluster_by, True, self.nlp_model)
+        if firstCall:
+            df = process_df_col(df, self.cluster_by, True, self.nlp_model)
+
+
 
         # Clustering
         vectors = self.vectorizer.fit_transform(df[f"{self.cluster_by}_processed"].tolist())
