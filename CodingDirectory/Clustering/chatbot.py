@@ -28,7 +28,7 @@ class Chatbot:
         self.query = query
         self.df = self.solrhandler.get_df_from_query(query)
         self.df = self.clusterer.run(self.df)
-        self.df = self.tpc_dterminator.run(self.df)[0]
+        self.df = self.topicdeterminator.run(self.df)
 
 
     def findCorrectAnswer(self,targetService):
@@ -37,11 +37,12 @@ class Chatbot:
         """
 
         # Find Target Cluster
-        temp = self.tpc_dterminator.df
+        temp = self.topicdeterminator.df
         clusteredColumn = self.clusterer.getClusteredColumn()
         service = temp.loc[temp["id"]==str(targetService)]
         targetCluster = service[clusteredColumn][0]
 
+        print("targetCluster "+ str(targetCluster) + "\nselectedCluster " + str(self.getSelectedClusterForQuestion()))
         if targetCluster == self.getSelectedClusterForQuestion():
             return True
         else:
@@ -68,9 +69,9 @@ class Chatbot:
         is_finished = n_row_aft == n_row_bef | n_row_aft == 0
 
         if is_finished:
-            return False
-        else:
             return True
+        else:
+            return False
 
         # Refine Cluster + Topics
         self.df = self.clusterer.run(self.df)
@@ -81,17 +82,18 @@ class Chatbot:
 
         :return: Cluster with most services
         """
-        df_row = self.tpc_dterminator.df_clus.sort_values(by = "count", ascending=False).head(1)
-        return df_row[self.clusterer.getClusteredColumn()][0]
+        df_row = self.topicdeterminator.df_clus.sort_values(by = "count", ascending=False).head(1)
+        #print(df_row[self.clusterer.getClusteredColumn()])
+        return df_row[self.clusterer.getClusteredColumn()][1]
 
     def getSelectedTopicForQuestion(self):
         """
 
         :return:
         """
-        df_row = self.tpc_dterminator.df_clus.sort_values(by="count", ascending=False).head(1)
+        df_row = self.topicdeterminator.df_clus.sort_values(by="count", ascending=False).head(1)
 
-        return df_row["Topics"][0]
+        return df_row["Topics"][1]
 
     def generateQuestion(self):
         """
