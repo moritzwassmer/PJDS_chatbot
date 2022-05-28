@@ -20,7 +20,7 @@ from operator import itemgetter
 from azure.ai.textanalytics import TextAnalyticsClient
 from azure.core.credentials import AzureKeyCredential
 
-class Topic_determination:
+class TopicDeterminator:
     
     def __init__(self):
         self.df_clus= None
