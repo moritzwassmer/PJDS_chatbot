@@ -60,7 +60,10 @@ class Clusterer:
         # Clustering
         vectors = self.vectorizer.fit_transform(df[f"{self.cluster_by}_processed"].tolist())
         clusters = self.clustering_algorithm.fit(vectors).labels_
-        df[f"{self.cluster_by}_cluster"] = clusters
+        df[self.getClusteredColumn()] = clusters
         return df
+
+    def getClusteredColumn(self):
+        return f"{self.cluster_by}_cluster"
 
 
