@@ -43,15 +43,13 @@ class TopicDeterminator:
                 "categorized" Per Array List of (Word, Category, Score, Offset)
             
         """
-        self.df= None
-        self.df_clus=None
-        self.client = None
         self.df=df
         self.group_by_cluster(clustered_by)
         self.return_topics(top_n,clustered_by)
         if(categorize_key!="False"):            
             self.categorize_text(key=categorize_key,endpoint="https://berlinbobbi.cognitiveservices.azure.com/",col_name="ssdsLemma")
         self.topics_to_service(clustered_by)
+        print(len(self.df_clus))
         return self.df
         
     def group_by_cluster(self,col_name="ssdsLemma"):
@@ -73,7 +71,7 @@ class TopicDeterminator:
             top_feats = [(features[j]) for j in topn_ids]
             topics.append(top_feats)
             i+=1
-        self.df_clus['Topics']=topics        
+        self.df_clus['Topics']=topics       # TODO .iloc
     
     def topics_to_service(self,col_name="ssdsLemma"):
         self.df["Topics"]=self.df.apply(lambda row: self.df_clus.iloc[self.df[f"{col_name}_cluster"].iloc[row.name],2], axis=1)

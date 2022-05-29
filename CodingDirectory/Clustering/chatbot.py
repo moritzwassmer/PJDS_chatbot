@@ -42,13 +42,13 @@ class Chatbot:
         service = temp.loc[temp["id"]==str(targetService)]
         targetCluster = service[clusteredColumn][0]
 
-        print("targetCluster "+ str(targetCluster) + "\nselectedCluster " + str(self.getSelectedClusterForQuestion()))
+        #print("targetCluster "+ str(targetCluster) + "\nselectedCluster " + str(self.getSelectedClusterForQuestion()))
         if targetCluster == self.getSelectedClusterForQuestion():
             return True
         else:
             return False
 
-    def refineResultset(self, answer): # TODO Silvio
+    def refineResultset(self, answer):
         """
         :param clusterId:
         :param answer: True = yes, False = no
@@ -60,26 +60,24 @@ class Chatbot:
         n_row_bef = len(self.df.index)
         # go into cluster if topic fits intent or discard cluster, if not
         if answer:
-            self.df = self.df.loc[self.df[self.clusterer.getClusteredColumn()] == self.getSelectedClusterForQuestion()]
+            self.df = self.df.loc[self.df[self.clusterer.getClusteredColumn()] == self.getSelectedClusterForQuestion()]#.reset_index()
         else:
-            self.df = self.df.loc[self.df[self.clusterer.getClusteredColumn()] != self.getSelectedClusterForQuestion()]
+            self.df = self.df.loc[self.df[self.clusterer.getClusteredColumn()] != self.getSelectedClusterForQuestion()]#.reset_index()
         n_row_aft = len(self.df.index)
 
         # check if finished
-        is_finished = n_row_aft == n_row_bef | n_row_aft == 0
-
-
+        self.is_finished = n_row_aft == n_row_bef or n_row_aft == 1 or n_row_aft == 0
 
         # Refine Cluster + Topics
-        self.df = self.clusterer.run(self.df, firstCall = False) # TODO kann nicht 2 mal aufrufen
-        #self.df = self.topicdeterminator.run(self.df)
+        self.df = self.clusterer.run(self.df, firstCall = False)
+        self.df = self.topicdeterminator.run(self.df) # TODO FEHLER wenn 2 mal aufgerufen
 
-        if is_finished:
+        if self.is_finished:
             return True
         else:
             return False
 
-    def getSelectedClusterForQuestion(self): # TODO Silvio
+    def getSelectedClusterForQuestion(self):
         """
 
         :return: Cluster with most services
@@ -102,4 +100,4 @@ class Chatbot:
 
         :return:
         """
-        return "Geht es bei ihrem Anliegen um " + self.getSelectedTopicForQuestion()+ "?"
+        return "Geht es bei ihrem Anliegen um " + str(self.getSelectedTopicForQuestion())+ "?"

@@ -24,7 +24,7 @@ def process_df_col(df, column, do_preprocessing=True, nlp_model= spacy.load('de_
     values = [clean_text(val, nlp_model) for val in values]
     if do_preprocessing:
         values = [preprocess_text(val, nlp_model) for val in values]
-    df[f"{column}_processed"] = values # TODO
+    df[f"{column}_processed"] = values # TODO .loc
     return df
 
 class Clusterer:
@@ -62,7 +62,7 @@ class Clusterer:
         # Clustering
         vectors = self.vectorizer.fit_transform(df[f"{self.cluster_by}_processed"].tolist())
         clusters = self.clustering_algorithm.fit(vectors).labels_
-        df[self.getClusteredColumn()] = clusters
+        df[self.getClusteredColumn()] = clusters # TODO .loc
         return df
 
     def getClusteredColumn(self):
