@@ -49,8 +49,8 @@ class TopicDeterminator:
         if(categorize_key!="False"):            
             self.categorize_text(key=categorize_key,endpoint="https://berlinbobbi.cognitiveservices.azure.com/",col_name="ssdsLemma")
         self.topics_to_service(clustered_by)
-        print(len(self.df_clus))
-        return self.df
+        #print(len(self.df_clus))
+        return self.df, self.df_clus
         
     def group_by_cluster(self,col_name="ssdsLemma"):
         df_work2 = self.df[[f"{col_name}_processed",f"{col_name}_cluster"]]
