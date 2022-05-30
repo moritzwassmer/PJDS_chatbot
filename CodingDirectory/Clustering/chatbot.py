@@ -2,6 +2,7 @@
 #self.process_df_col(,
 
 import pandas as pd
+import numpy as np
 
 import solrhandler
 import clusterer as cls
@@ -19,7 +20,7 @@ class Chatbot:
         self.query = None
         self.df: pd.DataFrame
 
-        self.topicBlacklist = []
+        #self.topicBlacklist = []
 
         #self.nrow = None
 
@@ -37,36 +38,36 @@ class Chatbot:
         self.df_clus = result[1].sort_values(by = "count", ascending=False)
 
 
-    # Für Evaluierung
+    # TODO in Evaluierung ausgelagert, für Testzwecke in Modul lassen
     def findCorrectAnswer(self,targetService):
         """
         :return: True: targetService is in Cluster which is to be asked about False: else
         """
 
         # Find Target Cluster
-        #temp = self.topicdeterminator.df
         clusteredColumn = self.clusterer.getClusteredColumn()
         service = self.df.loc[self.df["id"]==str(targetService)]
-        targetCluster = service[clusteredColumn][0]
+        if len(service[clusteredColumn].values) == 0:
+            raise Exception("Answer not in resultset")
 
-        #print("targetCluster "+ str(targetCluster) + "\nselectedCluster " + str(self.getSelectedClusterForQuestion()))
+        targetCluster = service[clusteredColumn].values[0]
+
         if targetCluster == self.getSelectedClusterForQuestion():
             return True
+
         else:
             return False
+
 
     def refineResultset(self, answer):
         """
         :param clusterId:
         :param answer: True = yes, False = no
-        :return:
+        :return: True if finished, False if not
         """
 
-        #self.topicBlacklist = self.topicBlacklist + [self.getSelectedTopicForQuestion()] # Append topic to blacklist
-
-        n_row_bef = len(self.df.index)
-
         # go into cluster if topic fits intent or discard cluster, if not
+        n_row_bef = len(self.df.index)
         if answer:
             self.df = self.df.loc[self.df[self.clusterer.getClusteredColumn()] == self.getSelectedClusterForQuestion()]#.reset_index()
             self.df_clus = self.df_clus.loc[
@@ -77,13 +78,8 @@ class Chatbot:
                 self.df_clus[self.clusterer.getClusteredColumn()] != self.getSelectedClusterForQuestion()]  # .reset_index()
         n_row_aft = len(self.df.index)
 
-        # check if finished
-        self.is_finished = n_row_aft == n_row_bef or n_row_aft == 1 or n_row_aft == 0
-
-        # Refine Cluster + Topics -> doch kein cluster refinement
-        #self.df = self.clusterer.run(self.df, firstCall = False)
-        #self.df = self.topicdeterminator.run(self.df) # TODO FEHLER wenn 2 mal aufgerufen
-
+        # return true if finished
+        self.is_finished = self.checkFinished(n_row_bef, n_row_aft)
         if self.is_finished:
             return True
         else:
@@ -94,8 +90,6 @@ class Chatbot:
 
         :return: Cluster with most services
         """
-        #df_row = self.df_clus.head(1)
-        #print(df_row)
         return self.df_clus[self.clusterer.getClusteredColumn()].values[0]
 
     def getSelectedTopicForQuestion(self):
@@ -103,8 +97,6 @@ class Chatbot:
 
         :return:
         """
-        #df_row = self.df_clus.head(1)
-
         return self.df_clus["Topics"].values[0]
 
     def generateQuestion(self):
@@ -113,3 +105,6 @@ class Chatbot:
         :return:
         """
         return "Geht es bei ihrem Anliegen um " + str(self.getSelectedTopicForQuestion()[0])+ "?"
+
+    def checkFinished(self, nrow_bef, nrow_aft):
+        return nrow_aft == nrow_bef or nrow_aft == 1 or nrow_aft == 0 or len(np.unique(self.df[self.clusterer.getClusteredColumn()].values)) == 1
