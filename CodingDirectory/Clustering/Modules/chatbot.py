@@ -4,9 +4,6 @@
 import pandas as pd
 import numpy as np
 
-import solrhandler
-import clusterer as cls
-import topicdeterminator
 
 class Chatbot:
 
