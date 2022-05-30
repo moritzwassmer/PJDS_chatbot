@@ -20,4 +20,6 @@ class SolrHandler:
     def get_df_from_query(self, query):
         query_json = get_json_from_solr(query, max_elems=self.max_elems)
         df = get_df_from_json(query_json)
+        if(len(df) == 0):
+            raise Exception("no solr output")
         return df

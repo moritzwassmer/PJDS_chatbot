@@ -71,7 +71,7 @@ class TopicDeterminator:
             top_feats = [(features[j]) for j in topn_ids]
             topics.append(top_feats)
             i+=1
-        self.df_clus['Topics']=topics       # TODO .iloc
+        self.df_clus['Topics']=topics
     
     def topics_to_service(self,col_name="ssdsLemma"):
         self.df["Topics"]=self.df.apply(lambda row: self.df_clus.iloc[self.df[f"{col_name}_cluster"].iloc[row.name],2], axis=1)

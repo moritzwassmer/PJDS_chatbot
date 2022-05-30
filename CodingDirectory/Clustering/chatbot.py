@@ -35,7 +35,7 @@ class Chatbot:
         #self.df = self.topicdeterminator.run(self.df)
         result = self.topicdeterminator.run(self.df)
         self.df = result[0]
-        self.df_clus = result[1].sort_values(by = "count", ascending=False)
+        self.df_clus = result[1].sort_values(by = "count", ascending=False) # TODO sekundärer sort nach index
 
 
     # TODO in Evaluierung ausgelagert, für Testzwecke in Modul lassen
