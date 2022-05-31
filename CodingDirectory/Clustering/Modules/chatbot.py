@@ -56,7 +56,7 @@ class Chatbot:
             return False
 
 
-    def refineResultset(self, answer):
+    def refineResultset(self, answer, recluster = False):
         """
         :param clusterId:
         :param answer: True = yes, False = no
@@ -74,6 +74,11 @@ class Chatbot:
             self.df_clus = self.df_clus.loc[
                 self.df_clus[self.clusterer.getClusteredColumn()] != self.getSelectedClusterForQuestion()]  # .reset_index()
         n_row_aft = len(self.df.index)
+
+        # TODO Reclustering und Topic Determination
+        if recluster:
+            self.df = self.clusterer.run(self.df, False)
+            self.df, self.df_clus = self.topicdeterminator.run(self.df)
 
         # return true if finished
         self.is_finished = self.checkFinished(n_row_bef, n_row_aft)
