@@ -43,7 +43,7 @@ class TopicDeterminator:
                 "categorized" Per Array List of (Word, Category, Score, Offset)
             
         """
-        self.df=df
+        self.df=df.reset_index(drop=True)
         self.group_by_cluster(clustered_by)
         self.return_topics(top_n,clustered_by)
         if(categorize_key!="False"):            
