@@ -1,0 +1,37 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Moritz Wassmer
+
+Aufgaben abgeschlossen (seit letzter Woche)
+- Welche explizite Evaluationsmetrik verwenden?
+ -> nicht abgeschlossen aber einige Metriken denkbar:
+ - Wie viele Vorschläge übrig?
+ - Wie lange bis eindeutiges Ergebnis (Jannis)
+ - "MRR"
+ - Anzahl Suggestions
+ ...
+
+- Pipeline zur Evaluation (soweit benötigte Komponenten rechtzeitig fertig)
+ -> "fertig", allerdings stellenweise unsauber
+ 
+- Chatbot Prototyp "neu" implementiert als eigenes Modul, auf welches GUI und Evaluierung zurückgreifen kann
+- Code etwas besser gekapselt
+
+Aufgaben geplant für die aktuelle Woche
+- Module aufräumen, kommentieren, Exception Handling verbessern...
+- KMeans implementieren?
+- Mit parametern "spielen" und geeignete Metriken finden
+
+
+
+Probleme
+- wenig Erfahrung mit Python
+- bestehende chatbot implementierung war nicht weiterverwendbar für evaluation, 
+daher musste ich zunächst das Modul selbst schreiben damit ich mit meiner 
+eigentlichen Aufgabe Evaluation weitermachen konnte.
+
+Fragen
+- Stelle ich direkt
+
+Weiteres
+
