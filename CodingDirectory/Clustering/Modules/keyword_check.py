@@ -7,7 +7,7 @@
 
 import spacy
 import numpy as np
-
+from heapq import nsmallest
 from clusterer import Clusterer
 #import clusterer
 from clusterer import clean_text, process_df_col
@@ -52,7 +52,16 @@ def choose_question(length,word_freq):
     #sq_distance_matrix=np.square(distance_matrix)
     tmp = min(distance_matrix)
     index = distance_matrix.index(tmp)
-    return index  
+    return index
+
+def choose_n_questions(length,word_freq,n):
+    #Chooses top n keywords
+    distance_matrix=[(length/2 - y)**2 for y in word_freq]
+    sorted_distance=distance_matrix.sort()
+    tmp=sorted_distance[]
+    index = distance_matrix.index(tmp)
+    return index
+
 
 def refrain_results_ext(df,word_occ,word_freq,kw_index,choice):
     #updates the word_occurence, frequency and underlying dataframe to EXTERNAL
