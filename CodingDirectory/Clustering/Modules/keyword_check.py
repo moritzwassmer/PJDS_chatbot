@@ -29,15 +29,23 @@ def process_df_col_keywords(df, nlp, col_name="ssdsLemma", do_preprocessing=True
     df[f"{col_name}_processed"] = values
     return df
 """
+
+
 def query_init_keywords(query, col_name="ssdsLemma", number=900):
     #calls SOLR & preprocessing
     json_file=get_json_from_solr(query,number)
     df=get_df_from_json(json_file)
+    if (len(df) == 0):
+        raise Exception("Empty query result!")
+        return False
+    if col_name not in df:
+        raise Exception("Column Name not in query result")
+        return False
     df_pre=process_df_col(df, col_name,nlp)
     return df_pre
 
 def init_vector(df,col_name="ssdsLemma"):
-    #initiates the word-occurence & frequency vector
+    #initiates the word-occurence & frequency vector and list of words
     vectorizer = CountVectorizer()
     a = vectorizer.fit_transform(df[f"{col_name}_processed"]).toarray()
     b = a > 0
@@ -47,24 +55,22 @@ def init_vector(df,col_name="ssdsLemma"):
     return word_occ, words, word_freq
 
 def choose_question(length,word_freq):
-    #Chooses Keywords with occurs closest to 50%
+    #Chooses Index of Keywords with occurs closest to 50%
     distance_matrix=[(length/2 - y)**2 for y in word_freq]
-    #sq_distance_matrix=np.square(distance_matrix)
     tmp = min(distance_matrix)
     index = distance_matrix.index(tmp)
     return index
 
 def choose_n_questions(length,word_freq,n):
-    #Chooses top n keywords
+    #Chooses top n keywords NOT WORKING
     distance_matrix=[(length/2 - y)**2 for y in word_freq]
     sorted_distance=distance_matrix.sort()
-    tmp=sorted_distance[]
+    #tmp=sorted_distance[]
     index = distance_matrix.index(tmp)
     return index
 
-
 def refrain_results_ext(df,word_occ,word_freq,kw_index,choice):
-    #updates the word_occurence, frequency and underlying dataframe to EXTERNAL
+    #returns updated word_occurence, frequency and dataframe to EXTERNAL
     df=df.drop(df.index[np.where(word_occ[:,kw_index]!=choice)]).reset_index(drop=True)
     word_occ=word_occ[np.where(word_occ[:,kw_index]==choice)]
     word_freq=word_occ.sum(axis=0).tolist()
@@ -111,8 +117,6 @@ def iterate_through_all_services(df,word_occ_big,word_freq_big,result_list_len=6
     df_give["Conversations_needed"]=conversation_time
     return df_give
 
-
-
 class Keyword_check:
     def __init__(self):
         self.df= None
@@ -126,17 +130,21 @@ class Keyword_check:
         self.df = query_init_keywords(query, col_name)
         self.result_length=result_list_length
         if (len(self.df)==0):
-            print("Empty query result!")
+            raise Exception("Empty query result!")
             return self.df,self.word_occ,self.word_freq,self.words,index
+        if col_name not in self.df:
+            raise Exception("Column Name not in query result")
         self.word_occ,self.words,self.word_freq=init_vector(self.df,col_name)            
         index=choose_question(len(self.word_occ),self.word_freq)      
         return self.df,self.word_occ,self.word_freq,self.words,index
-    
+
     def refrain_results(self,kw_index,choice):
         #updates the word_occurence, frequency and underlying dataframe
         self.df=self.df.drop(self.df.index[np.where(self.word_occ[:,kw_index]!=choice)]).reset_index(drop=True)
         self.word_occ=self.word_occ[np.where(self.word_occ[:,kw_index]==choice)]
         self.word_freq=self.word_occ.sum(axis=0).tolist()
+
+
         
     def next_question(self):
         #Returns ID of next question or list of services if 2 or less
