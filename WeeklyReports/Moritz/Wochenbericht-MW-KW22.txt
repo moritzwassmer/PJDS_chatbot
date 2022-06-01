@@ -19,7 +19,8 @@ Aufgaben abgeschlossen (seit letzter Woche)
 
 Aufgaben geplant für die aktuelle Woche
 - Module aufräumen, kommentieren, Exception Handling verbessern...
-- KMeans implementieren?
+- andere Clusteringalgorithmen einbauen? (läuft noch nicht ohne fehler)
+eg KMeans, Clsutering mit gleich großen clustern?
 - Mit parametern "spielen" und geeignete Metriken finden
 
 
