@@ -1,0 +1,32 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jannis Pilgrim 
+
+Kalenderwoche: KW 22
+
+Datum: 31.05.2022
+
+Aufgaben abgeschlossen (seit letzter Woche)
+*Alternative zu Clustering & Topic implementiert: Keyword- Abfrage 
+*(Brute-Force) Ansatz zur Evalution des Ansatzes implementiert (Parameter nur Min/Max/Mean Conversation Turns)
+
+Aufgaben geplant für die aktuelle Woche
+*Evaluierung zu Moritz Evaluierung vergleichbar machen
+*"Echte" Query Daten darauf anwenden
+*"Multiple response" Ansatz implementieren
+*
+
+Probleme
+*Solr-Suche sehr undurchsichtig:
+-*Manche Wörter sind sowohl bei ssdsLemma, manual keywords und synonyme aufgeführt, führen aber zu keinem bzw. anderem Ergebnis
+-*Konträr dazu: Queries die bei Solr direkt nur 1 Antwort generieren (miete) weisen bei Bobbi interface zu 6 (passenden) services 
+*Initialer Ansatz war, Brute-Force alle auftretenden Keywords bei Solr abzufragen, nicht möglich da viele zu gar keinem Ergebnis führen
+*Workaround
+
+Fragen
+*Was genau führt Solr im Hintergrund durch? Query auf "Services"? Wie wirklich reproduzierbar?
+*
+*
+
+Weiteres
+
