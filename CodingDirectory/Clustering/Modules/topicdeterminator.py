@@ -27,7 +27,7 @@ class TopicDeterminator:
         self.df = None
         self.client = None
         
-    def run(self, df, top_n=1, clustered_by="ssdsLemma",categorize_key="False"):        
+    def run(self, df, vectorizer =TfidfVectorizer(),top_n=1, clustered_by="ssdsLemma",categorize_key="False"):
         
         """
             Takes the Dataframe from Clustering, and returns, enriched by the
@@ -45,7 +45,7 @@ class TopicDeterminator:
         """
         self.df=df.reset_index(drop=True)
         self.group_by_cluster(clustered_by)
-        self.return_topics(top_n,clustered_by)
+        self.return_topics(vectorizer,top_n,clustered_by)
         if(categorize_key!="False"):            
             self.categorize_text(key=categorize_key,endpoint="https://berlinbobbi.cognitiveservices.azure.com/",col_name="ssdsLemma")
         self.topics_to_service(clustered_by)
@@ -53,14 +53,25 @@ class TopicDeterminator:
         return self.df, self.df_clus
         
     def group_by_cluster(self,col_name="ssdsLemma"):
+        """
+        aggregates over services into clusters including count
+        :param col_name:
+        :return:
+        """
         df_work2 = self.df[[f"{col_name}_processed",f"{col_name}_cluster"]]
         df_work3=df_work2.groupby([f"{col_name}_cluster"])[f"{col_name}_processed"].apply(lambda x: ' '.join(x)).reset_index() 
         df_work2=df_work2.groupby([f"{col_name}_cluster"])[f"{col_name}_processed"].agg('count').to_frame('c').reset_index()
         df_work3['count']=df_work2['c']
         self.df_clus=df_work3
     
-    def return_topics(self,n=1,col_name="ssdsLemma"):
-        vectorizer=TfidfVectorizer()
+    def return_topics(self,vectorizer=TfidfVectorizer(),n=1,col_name="ssdsLemma"):
+        """
+        gets the "strongest" n words per cluster after vectorizing
+        :param vectorizer: optional method of vectorizing
+        :param n: top how-many-words should be returned
+        :param col_name:
+        :return:
+        """
         rows = vectorizer.fit_transform(self.df_clus[f"{col_name}_processed"].tolist()).toarray()
         features=vectorizer.get_feature_names()
         i=0
@@ -74,17 +85,35 @@ class TopicDeterminator:
         self.df_clus['Topics']=topics
     
     def topics_to_service(self,col_name="ssdsLemma"):
+        """
+        reassigns the topics back to the services
+        :param col_name:
+        :return:
+        """
         self.df["Topics"]=self.df.apply(lambda row: self.df_clus.iloc[self.df[f"{col_name}_cluster"].iloc[row.name],2], axis=1)
         if 'categorized' in self.df_clus:
             self.df["categorized"]=self.df.apply(lambda row: self.df_clus.iloc[self.df[f"{col_name}_cluster"].iloc[row.name],3], axis=1)
         
     def authenticate_azure_client(self,key,endpoint="https://berlinbobbi.cognitiveservices.azure.com/"):
+        """
+        basically DEPRECATED
+        :param key:
+        :param endpoint:
+        :return:
+        """
         ta_credential = AzureKeyCredential(key)
         text_analytics_client = TextAnalyticsClient(endpoint=endpoint, 
         credential=ta_credential)
         self.client = text_analytics_client   
     
     def categorize_text(self,key,endpoint="https://berlinbobbi.cognitiveservices.azure.com/",col_name="ssdsLemma"):
+        """
+        basically DEPRECATED
+        :param key:
+        :param endpoint:
+        :param col_name:
+        :return:
+        """
         self.authenticate_azure_client(key,endpoint)        
         topic=[None]*len(self.df_clus)
         i=0
