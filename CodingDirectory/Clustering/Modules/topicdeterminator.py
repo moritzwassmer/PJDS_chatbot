@@ -20,7 +20,7 @@ from operator import itemgetter
 from azure.ai.textanalytics import TextAnalyticsClient
 from azure.core.credentials import AzureKeyCredential
 
-class Topic_determination:
+class TopicDeterminator:
     
     def __init__(self):
         self.df_clus= None
@@ -43,16 +43,14 @@ class Topic_determination:
                 "categorized" Per Array List of (Word, Category, Score, Offset)
             
         """
-        self.df= None
-        self.df_clus=None
-        self.client = None
-        self.df=df
+        self.df=df.reset_index(drop=True)
         self.group_by_cluster(clustered_by)
         self.return_topics(top_n,clustered_by)
         if(categorize_key!="False"):            
             self.categorize_text(key=categorize_key,endpoint="https://berlinbobbi.cognitiveservices.azure.com/",col_name="ssdsLemma")
         self.topics_to_service(clustered_by)
-        return self.df,self.df_clus
+        #print(len(self.df_clus))
+        return self.df, self.df_clus
         
     def group_by_cluster(self,col_name="ssdsLemma"):
         df_work2 = self.df[[f"{col_name}_processed",f"{col_name}_cluster"]]
@@ -73,7 +71,7 @@ class Topic_determination:
             top_feats = [(features[j]) for j in topn_ids]
             topics.append(top_feats)
             i+=1
-        self.df_clus['Topics']=topics        
+        self.df_clus['Topics']=topics
     
     def topics_to_service(self,col_name="ssdsLemma"):
         self.df["Topics"]=self.df.apply(lambda row: self.df_clus.iloc[self.df[f"{col_name}_cluster"].iloc[row.name],2], axis=1)
@@ -100,8 +98,3 @@ class Topic_determination:
             topic[i]=(sorted(summary,key=itemgetter(3),reverse=False))
             i+=1
         self.df_clus['categorized']=topic
-                         
-                   
-    
-    
-

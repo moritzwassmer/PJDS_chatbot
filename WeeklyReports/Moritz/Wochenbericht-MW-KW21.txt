@@ -9,6 +9,9 @@ Aufgaben geplant für die aktuelle Woche
 - Welche explizite Evaluationsmetrik verwenden?
 - Pipeline zur Evaluation (soweit benötigte Komponenten rechtzeitig fertig)
 - Idee von Jannis überprüfen (+implementieren?)
+ -> macht Jannis selbst
+- Chatbot als eigenes Modul, auf welches GUI und Evaluierung zurückgreifen kann
+- Code etwas besser Kapseln
 
 Probleme
 
