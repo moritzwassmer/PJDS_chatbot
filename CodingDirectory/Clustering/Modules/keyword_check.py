@@ -99,7 +99,7 @@ def iterate_through_all_services(df,word_occ_big,word_freq_big,result_list_len=6
     service=0
     conversation_time=[]
     while service<len(df_give):
-        print(conversation_time)
+
         service_keys=word_occ_big[service,:]
         index=0
         j=0
@@ -148,6 +148,7 @@ class Keyword_check:
         
     def next_question(self):
         #Returns ID of next question or list of services if 2 or less
+
         if(len(self.word_occ)<=self.result_length):
             return self.df["d115Name"]
         index=choose_question(len(self.word_occ),self.word_freq)        
