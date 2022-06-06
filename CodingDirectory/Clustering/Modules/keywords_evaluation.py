@@ -27,7 +27,7 @@ class Keywords_eval:
 
 
 
-    def initialize_evaluation(self,df,result_list=2):
+    def initialize_evaluation(self,df,result_list=3):
         """
         :param df: dataframe in format of moritz dataset of original queries
         :param result_list_len: optional param to specify at what No of results to stop
@@ -68,14 +68,19 @@ class Keywords_eval:
                 service_keys = occ_query[a][0]
                 #t = counter over conversation turns
                 t = 0
+                rank = self.keywords.df[self.keywords.df["id"] == str(df["documentId"].iloc[i])].index.values[0]
+                self.append_val_to_list(i, t, len(self.keywords.word_occ), (rank + 1), "initialQuery", None)
                 #index will be type(list) if questioning resulted in final suggestions
                 while type(index) is int:
 
                     choice = (service_keys[index])
                     t += 1
-                    rank= self.keywords.df[self.keywords.df["id"] == str(df["documentId"].iloc[i])].index.values[0]
-                    self.append_val_to_list(i,t,len(self.keywords.word_occ),(rank+1),words_query[index],choice)
+
+
                     self.keywords.refrain_results(index, choice)
+                    rank = self.keywords.df[self.keywords.df["id"] == str(df["documentId"].iloc[i])].index.values[0]
+                    self.append_val_to_list(i,t,len(self.keywords.word_occ),(rank+1),str("Geht es bei Ihrem Anliegen um " + words_query[index]) + "?",choice)
+
                     index = self.keywords.next_question()
 
                 i += 1
@@ -104,7 +109,7 @@ class Keywords_eval:
         self.t_list.append(j)
         self.service_name_list.append(self.df['name'].iloc[i])
         self.query_list.append(self.df['initialQuestion'].iloc[i])
-        self.question_list.append("Geht es bei Ihrem Anliegen um " + qWord + "?")
+        self.question_list.append(qWord)
         self.answer_list.append(bool(answer))
         self.rank_list.append(rank)
         self.nResults_list.append(nResults)
