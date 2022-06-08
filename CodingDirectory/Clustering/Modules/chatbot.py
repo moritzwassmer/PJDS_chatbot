@@ -3,17 +3,21 @@
 
 import pandas as pd
 import numpy as np
+from Modules.chatbot_interface import ChatbotInterface
 
+class Chatbot(ChatbotInterface):
 
-class Chatbot:
-
-    def __init__(self, solrhandler, clusterer, topicdeterminator):
+    def __init__(self, solrhandler, clusterer, topicdeterminator, initial_query, maxResultSetSize):
 
         # Komponenten
-        self.solrhandler = solrhandler
-        self.clusterer = clusterer
-        self.topicdeterminator = topicdeterminator
-
+        self.solrhandler = solrhandler()
+        self.clusterer = clusterer()
+        self.topicdeterminator = topicdeterminator()
+        
+        #Parameter
+        self.maxResultSetSize = maxResultSetSize
+        self.decisionTrace = {}
+        
         self.query = None
         self.df: pd.DataFrame
 
@@ -22,6 +26,8 @@ class Chatbot:
         #self.nrow = None
 
         self.df_clus : pd.DataFrame
+            
+        self.initialQuery(initial_query)
 
 
     def initialQuery(self,query):
@@ -55,7 +61,10 @@ class Chatbot:
         else:
             return False
 
-
+    def recluster(self):
+        self.df = self.clusterer.run(self.df, False)
+        self.df, self.df_clus = self.topicdeterminator.run(self.df)
+        
     def refineResultset(self, answer, recluster = False):
         """
         :param clusterId:
@@ -64,29 +73,37 @@ class Chatbot:
         """
 
         # go into cluster if topic fits intent or discard cluster, if not
-        n_row_bef = len(self.df.index)
         if answer:
+            for topic_component in self.getSelectedTopicForQuestion():
+                self.decisionTrace.update({topic_component:True})
             self.df = self.df.loc[self.df[self.clusterer.getClusteredColumn()] == self.getSelectedClusterForQuestion()]#.reset_index()
             self.df_clus = self.df_clus.loc[
                 self.df_clus[self.clusterer.getClusteredColumn()] == self.getSelectedClusterForQuestion()]  # .reset_index()
         else:
+            for topic_component in self.getSelectedTopicForQuestion():
+                self.decisionTrace.update({topic_component:False})
             self.df = self.df.loc[self.df[self.clusterer.getClusteredColumn()] != self.getSelectedClusterForQuestion()]#.reset_index()
             self.df_clus = self.df_clus.loc[
                 self.df_clus[self.clusterer.getClusteredColumn()] != self.getSelectedClusterForQuestion()]  # .reset_index()
-        n_row_aft = len(self.df.index)
 
         # TODO Reclustering und Topic Determination
         if recluster:
-            self.df = self.clusterer.run(self.df, False)
-            self.df, self.df_clus = self.topicdeterminator.run(self.df)
+            self.recluster()
 
+    def isFinished(self):
         # return true if finished
-        self.is_finished = self.checkFinished(n_row_bef, n_row_aft)
-        if self.is_finished:
-            return True
-        else:
-            return False
-
+#         n_row_bef = len(self.df.index)
+#         n_row_aft = len(self.df.index)
+        
+#         self.is_finished = self.checkFinished(n_row_bef, n_row_aft)
+#                 return nrow_aft == nrow_bef or nrow_aft == 1 or nrow_aft == 0 or 
+#         if self.is_finished:
+#             return True
+#         else:
+#             return False
+        self.isfinished = len(np.unique(self.df[self.clusterer.getClusteredColumn()].values)) == 1 or self.df.shape[0] < self.maxResultSetSize
+        return self.isfinished
+        
     def getSelectedClusterForQuestion(self):
         """
 
@@ -100,13 +117,23 @@ class Chatbot:
         :return:
         """
         return self.df_clus["Topics"].values[0]
-
+    
     def generateQuestion(self):
         """
 
         :return:
         """
         return "Geht es bei ihrem Anliegen um " + str(self.getSelectedTopicForQuestion()[0])+ "?"
-
-    def checkFinished(self, nrow_bef, nrow_aft):
-        return nrow_aft == nrow_bef or nrow_aft == 1 or nrow_aft == 0 or len(np.unique(self.df[self.clusterer.getClusteredColumn()].values)) == 1
+    
+    def get_result_string(self) -> str:
+        return self.df[["d115Url", "d115Name"]].to_string()
+    
+    def get_result_html(self) -> str:    
+        return "<ul> "+ " ".join(["<li>" + desc + "</li><hr style='height:2px;border-width:0;color:black;background-color:black'>" for desc in self.df["d115Description"]]) + " </ul>"
+    
+    def add_query(self, query: str):
+        if query not in self.query:
+            self.initialQuery(self.query + " " + query)
+            while sum([~self.decisionTrace.get(topic, True) for topic in self.df_clus["Topics"].values]):
+                self.df = self.df.loc[self.decisionTrace.get(topic, True)]
+                self.refine()

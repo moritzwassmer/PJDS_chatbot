@@ -1,0 +1,32 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Silvio Echsle
+
+Kalenderwoche: KW 23
+
+Datum: 8.6.2022
+
+Aufgaben abgeschlossen (seit letzter Woche)
+* GUI überarbeitet
+* Chatbot Interface definiert
+* Chatbot an das Interface angepasst
+* Question generatiuon weiter recherchiert
+
+Aufgaben geplant für die aktuelle Woche
+* Richtigen Fragengenerator implementieren!
+* GUI im Notebook zusammneführen
+*
+
+Probleme
+* Gibt es bereits Lösungen?
+* Aus wenig Informationen einen Satz bauen
+* Generieren vs Template
+* Ergänzungen zur query können bisher nicht abgearbeitet werden
+
+Fragen
+* Wie schreibe eine korrekte Frage aus einem Set an Wörtern?
+* Wie können Fragen überhaupt aussehen?
+* Ist unsere Frage tatsächlich schlechter als was die Literatur macht?
+
+Weiteres
+

@@ -2,7 +2,7 @@ import pandas as pd
 import requests
 
 
-def get_json_from_solr(query, max_elems):
+def get_json_from_solr(query, max_elems=1000):
     query = query.replace(' ', '%20')
     url = f"http://localhost:8983/solr/d115Services/select?indent=true&q.op=OR&q={query}&rows={max_elems}"
     return requests.get(url).json()
