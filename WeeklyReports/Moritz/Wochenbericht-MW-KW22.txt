@@ -19,17 +19,17 @@ Aufgaben abgeschlossen (seit letzter Woche)
 
 Aufgaben geplant für die aktuelle Woche
 - Module aufräumen, kommentieren, Exception Handling verbessern...
+ -> da entschlossen wurde den Clusteringansatz nicht weiter zu verfolgen, Aufgabe verworfen
 - andere Clusteringalgorithmen einbauen? (läuft noch nicht ohne fehler)
 eg KMeans, Clsutering mit gleich großen clustern?
-- Mit parametern "spielen" und geeignete Metriken finden
+-> da entschlossen wurde den Clusteringansatz nicht weiter zu verfolgen, Aufgabe verworfen
+- Vergleich von Clustering- Ansatz mit Jannis
+- Implementierung von Chatbot basierend auf DecisionTree 
 
 
 
 Probleme
-- wenig Erfahrung mit Python
-- bestehende chatbot implementierung war nicht weiterverwendbar für evaluation, 
-daher musste ich zunächst das Modul selbst schreiben damit ich mit meiner 
-eigentlichen Aufgabe Evaluation weitermachen konnte.
+
 
 Fragen
 - Stelle ich direkt
