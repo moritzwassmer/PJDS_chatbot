@@ -8,26 +8,23 @@ from keyword_check import *
 
 class Keywords_eval:
 
-    def __init__(self):
-        self.keywords=Keyword_check()
-        self.df= None
+    def __init__(self, solrhandler, clusterer, topic_dterminator, Keyword_check, query, maxResultSetSize):
+        self.keywords = Keyword_check(solrhandler, clusterer, topic_dterminator, query, maxResultSetSize)
+        self.df = None
         self.df_logs = None
-        self.file_list=[]
-        self.dialogId_list=[]
+        self.file_list = []
+        self.dialogId_list = []
         self.id_list = []
         self.t_list = []
-        self.service_name_list=[]
-        self.query_list=[]
+        self.service_name_list = []
+        self.query_list = []
         self.question_list = []
         self.answer_list = []
         self.rank_list = []
         self.nResults_list = []
+        self.max_result_length=maxResultSetSize
 
-
-
-
-
-    def initialize_evaluation(self,df,result_list=2):
+    def initialize_evaluation(self, df, result_list=3):
         """
         :param df: dataframe in format of moritz dataset of original queries
         :param result_list_len: optional param to specify at what No of results to stop
@@ -35,51 +32,68 @@ class Keywords_eval:
         :return: return log DF
         """
         self.df = df
-        self.test_dataset_2_keyword(df,result_list)
+        self.test_dataset_2_keyword(df, result_list)
         self.conclude_logs()
         return self.df_logs
 
-    def test_dataset_2_keyword(self,df, result_list_len=3):
+    def test_dataset_2_keyword(self, df, result_list_len=3):
         """
         :param df: dataframe in format of moritz dataset of original queries
         :param result_list_len: optional param to specify at what No of results to stop
         :return: none
         """
-        #i = counter over initial query
+        # i = counter over initial query
         i = 0
         while i < len(df):
 
             print(i)
             try:
-                #fetches params for specific query
-                df_query, occ_query, freq_query, words_query, index = self.keywords.initial_conversation(query=df["initialQuestion"].iloc[i],col_name="ssdsLemma",result_list_length=result_list_len)
+                # fetches params for specific query
+                df_query, occ_query, freq_query, words_query, index = self.keywords.initial_conversation(
+                    query=df["initialQuestion"].iloc[i], col_name="ssdsLemma", result_list_length=self.max_result_length)
                 a = df_query["id"] == str(df["documentId"].iloc[i])
             except Exception as e:
                 if (str(e) == 'response'):
+
                     self.skip_one_row(i)
-                    next
+                    i += 1
+                    continue
+                elif (str(e) == 'no solr output'):
+
+                    self.skip_one_row(i)
+                    i += 1
+                    continue
                 else:
                     print(e)
 
             if len(a[a]) == 0:
+                #if ==0 this means ground-truth-service is not in query-result
                 i += 1
             else:
-                #stores copy of targeted service's word occurences
+                # stores copy of targeted service's word occurences
                 service_keys = occ_query[a][0]
-                #t = counter over conversation turns
+                # t = counter over conversation turns
                 t = 0
-                #index will be type(list) if questioning resulted in final suggestions
+                print(df["documentId"].iloc[i])
+                print(self.keywords.df["id"] == str(df["documentId"].iloc[i]))
+                rank = self.keywords.df[self.keywords.df["id"] == str(df["documentId"].iloc[i])].index.values[0]
+                self.append_val_to_list(i, t, len(self.keywords.word_occ), (rank + 1), "initialQuery", None)
+                # index will be type(list) if questioning resulted in final suggestions
                 while type(index) is int:
-
                     choice = (service_keys[index])
                     t += 1
-                    rank= self.keywords.df[self.keywords.df["id"] == str(df["documentId"].iloc[i])].index.values[0]
-                    self.append_val_to_list(i,t,len(self.keywords.word_occ),(rank+1),words_query[index],choice)
-                    self.keywords.refrain_results(index, choice)
+
+                    self.keywords.refineResultset(choice)
+                    rank = self.keywords.df[self.keywords.df["id"] == str(df["documentId"].iloc[i])].index.values[0]
+                    self.append_val_to_list(i, t, len(self.keywords.word_occ), (rank + 1),
+                                            str("Geht es bei Ihrem Anliegen um " + words_query[index]) + "?", choice)
+
                     index = self.keywords.next_question()
+                    print(index)
+                    #print(self.keywords.df)
+
 
                 i += 1
-
 
     def conclude_logs(self):
         """
@@ -87,12 +101,12 @@ class Keywords_eval:
         :return: summs up all lists into a df of logs
         """
 
-        self.df_logs=pd.DataFrame(list(zip(self.file_list,self.dialogId_list,self.id_list,self.t_list,self.service_name_list,
-                                           self.query_list,self.question_list,self.answer_list,self.rank_list,self.nResults_list)),
-                                  columns=['file','dialogId','ID','t','name','initialQuestion','question','answer','rank','nResult'])
+        self.df_logs = pd.DataFrame(
+            list(zip(self.file_list, self.dialogId_list, self.id_list, self.t_list, self.service_name_list,
+                     self.query_list, self.question_list, self.answer_list, self.rank_list, self.nResults_list)),
+            columns=['file', 'dialogId', 'ID', 't', 'name', 'initialQuestion', 'question', 'answer', 'rank', 'nResult'])
 
-
-    def append_val_to_list(self,i,j,nResults,rank,qWord,answer):
+    def append_val_to_list(self, i, j, nResults, rank, qWord, answer):
         """
         adds all logable values to respective lists
         :params: corresponding params for logging
@@ -104,15 +118,12 @@ class Keywords_eval:
         self.t_list.append(j)
         self.service_name_list.append(self.df['name'].iloc[i])
         self.query_list.append(self.df['initialQuestion'].iloc[i])
-        self.question_list.append("Geht es bei Ihrem Anliegen um " + qWord + "?")
+        self.question_list.append(qWord)
         self.answer_list.append(bool(answer))
         self.rank_list.append(rank)
         self.nResults_list.append(nResults)
 
-
-
-
-    def skip_one_row(self,i):
+    def skip_one_row(self, i):
         """
         adds None etc. to lists in case exception is thrown
         :param i: iteration of new Queries
@@ -129,6 +140,3 @@ class Keywords_eval:
         self.rank_list.append(None)
         self.question_list.append(None)
         self.answer_list.append(None)
-
-
-

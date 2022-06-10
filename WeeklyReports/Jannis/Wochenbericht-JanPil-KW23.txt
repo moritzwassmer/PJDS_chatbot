@@ -1,0 +1,32 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jannis Pilgrim 
+
+Kalenderwoche: KW 23
+
+Datum: 07.06.2022
+
+Aufgaben abgeschlossen (seit letzter Woche)
+*Evaluations-Klasse implementiert, die Moritz Datensatz von Original Queries und angenommer ground truth nimmt um keyword-check zu testen 
+*loggt Test in gleichem DF-Format wie Moritz Klasse
+*erste Vergleiche zwischen Service-Clustering & Keyword-Check
+*Format des Log-DFs leicht angepasst
+
+Aufgaben geplant für die aktuelle Woche
+*Präsentation vorbereiten
+*Data-Analysis Funktion für Log-DF implementieren
+*ggf. "Blacklist" von in der query enthaltenen wörtern
+
+
+Probleme
+*Keyword-Clustering von Jakob wohl nicht recht gut möglich/praktikabel
+*Cluster-Qualität wohl nur qualitativ stichprobenartig evaluierbar, keyword-check hat kein clustering, daher vergleich dahingehend sowieso limitiert
+*
+
+Fragen
+*Ist Keyword-Ansatz ohne clustering und ohne starke fragegenerierung nicht zu trivial für semster & paper?
+*
+*
+
+Weiteres
+

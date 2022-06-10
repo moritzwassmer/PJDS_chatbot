@@ -1,0 +1,29 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jakob Kemmler
+
+Kalenderwoche: KW 21
+
+Datum: 25.5.2022
+
+Aufgaben abgeschlossen (seit letzter Woche)
+* Implementierung der GUI via Voila
+*
+
+Aufgaben geplant für die aktuelle Woche
+* Recherche im Bereich Question generation
+* GUI verbesserung
+*
+
+Probleme
+* Wie können wir die GUI zu einem schönen showcase nutzen?
+* 
+*
+
+Fragen
+* Wer hat sich mit Fragengenerierung beschäftigt?
+*
+*
+
+Weiteres
+

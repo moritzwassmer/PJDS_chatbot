@@ -1,0 +1,28 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Silvio Echsle
+
+Kalenderwoche: KW 22
+
+Datum: 1.6.2022
+
+Aufgaben abgeschlossen (seit letzter Woche)
+* Recherche zu Question Generation
+
+Aufgaben geplant für die aktuelle Woche
+* Verbessrung der GUI, Implementierung des Interface, Fragengenerator
+*
+*
+
+Probleme
+* Forschung ist meistens für die englische Sprache
+* der Code der verschiednene Projekte muss zusammengefügt werden.
+* Zeit!
+
+Fragen
+* Wie kann ein Interface für die zu vergelciehnden Bots aussehen?
+* Wie kann unsere GUI mit diesem Interface zusammenarbeiten?
+* Wie können generierte Fragen aussehen? (Templates?)
+
+Weiteres
+

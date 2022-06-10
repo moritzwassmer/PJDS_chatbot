@@ -1,0 +1,29 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Moritz Wassmer
+
+Aufgaben abgeschlossen (seit letzter Woche)
+- Vergleich von Clustering- Ansatz mit Jannis
+-> Clustering verworfen, da Clustering nicht die Lösung für das Problems ist. Wir wollen Services ausschließen, das heißt
+geeignete Keywords finden mit welchen wir möglichst die Ergebnismenge einschränken können. Clustering verfolgt nicht (direkt)
+das Ziel
+- Suche nach Ansätzen für obiges Problem
+-> Bin auf Information Gain und Decision Trees gestoßen:
+ Jannis Idee funktioniert sehr ähnlich wie ein Decision Tree (siehe https://en.wikipedia.org/wiki/ID3_algorithm). Wir können unseren
+- Implementierung von Chatbot basierend auf DecisionTree 
+ Da ich auf interessante Funktionen wie Plots von sklearn gestoßen bin, welche das Verfahren veranschaulichen könnten habe ich einen
+ Prototyp eines DecisionTreeChatbots geschrieben und diesen, auch wenn er noch nicht perfekt funktioniert, mit Jannis Approach verglichen.
+ Es scheint ähnliche Ergebnisse zu erzielen. Wir können den Ansatz also jetzt gut in bestehende Literatur einordnen.
+
+Aufgaben geplant für die aktuelle Woche
+- ?
+
+
+Probleme
+
+
+Fragen
+- Stelle ich direkt
+
+Weiteres
+
