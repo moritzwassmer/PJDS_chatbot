@@ -52,7 +52,7 @@ def init_vector_ext(df,col_name="ssdsLemma"):
     word_freq=word_occ.sum(axis=0).tolist()    
     return word_occ, words, word_freq
 
-def choose_question(length,word_freq):
+def choose_question(length: object, word_freq: object) -> object:
     #Chooses Index of Keywords with occurs closest to 50%
     distance_matrix=[(length/2 - y)**2 for y in word_freq]
     tmp = min(distance_matrix)
@@ -109,7 +109,6 @@ def iterate_through_all_keys(df_big,occ_big,freq_big,words_big,result_list_len=6
         df_iter=iterate_through_all_services(df,occ,freq,result_list_len)
         i+=1
         conversationtime.append(df_iter["Conversations_needed"].mean())
-        print(i)
     return conversationtime
 
 def iterate_through_all_services(df,word_occ_big,word_freq_big,result_list_len=6):
@@ -160,10 +159,10 @@ class Keyword_check(ChatbotInterface):
 
 
             
-    def initial_conversation(self, query,col_name="ssdsLemma",result_list_length=2):
+    def initial_conversation(self, query,col_name="ssdsLemma",result_list_length=3):
         #initial query & first keyword
         self.query_init_keywords(query, col_name)
-        self.result_length=result_list_length
+        self.max_result_length=result_list_length
         if (len(self.df)==0):
             raise Exception("Empty query result!")
             return self.df,self.word_occ,self.word_freq,self.words,index
@@ -176,9 +175,10 @@ class Keyword_check(ChatbotInterface):
     def refineResultset(self,answer):
         #updates the word_occurence, frequency and underlying dataframe
         #Return False if answer was neither ja nor nein
-        if answer == "ja":
+
+        if answer == "ja" or answer == 1:
             choice=1
-        elif answer == "nein":
+        elif answer == "nein" or answer == 0:
             choice=0
         else:
             return False
@@ -235,9 +235,9 @@ class Keyword_check(ChatbotInterface):
         self.words = vectorizer.get_feature_names()
         self.word_freq = self.word_occ.sum(axis=0).tolist()
 
-    def next_Question(self):
+    def next_question(self):
         # Returns ID of next question or list of services if 2 or less
-        if (len(self.word_occ) <= self.result_length):
+        if (len(self.word_occ) <= self.max_result_length):
             return self.df["d115Name"]
         self.current_KW_index = choose_question(len(self.word_occ), self.word_freq)
 

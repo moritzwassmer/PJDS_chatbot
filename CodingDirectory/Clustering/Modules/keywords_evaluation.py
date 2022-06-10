@@ -46,7 +46,7 @@ class Keywords_eval:
         i = 0
         while i < len(df):
 
-            print(i)
+
             try:
                 # fetches params for specific query
                 df_query, occ_query, freq_query, words_query, index = self.keywords.initial_conversation(
@@ -54,7 +54,6 @@ class Keywords_eval:
                 a = df_query["id"] == str(df["documentId"].iloc[i])
             except Exception as e:
                 if (str(e) == 'response'):
-
                     self.skip_one_row(i)
                     i += 1
                     continue
@@ -65,6 +64,9 @@ class Keywords_eval:
                     continue
                 else:
                     print(e)
+                    self.skip_one_row(i)
+                    i += 1
+                    continue
 
             if len(a[a]) == 0:
                 #if ==0 this means ground-truth-service is not in query-result
@@ -74,8 +76,7 @@ class Keywords_eval:
                 service_keys = occ_query[a][0]
                 # t = counter over conversation turns
                 t = 0
-                print(df["documentId"].iloc[i])
-                print(self.keywords.df["id"] == str(df["documentId"].iloc[i]))
+
                 rank = self.keywords.df[self.keywords.df["id"] == str(df["documentId"].iloc[i])].index.values[0]
                 self.append_val_to_list(i, t, len(self.keywords.word_occ), (rank + 1), "initialQuery", None)
                 # index will be type(list) if questioning resulted in final suggestions
@@ -89,8 +90,8 @@ class Keywords_eval:
                                             str("Geht es bei Ihrem Anliegen um " + words_query[index]) + "?", choice)
 
                     index = self.keywords.next_question()
-                    print(index)
-                    #print(self.keywords.df)
+
+
 
 
                 i += 1
