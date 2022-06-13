@@ -4,7 +4,7 @@
 
 
 
-
+from keyword_helper import  *
 import spacy
 import re
 import numpy as np
@@ -25,9 +25,9 @@ def process_df_col_keywords(df, nlp, col_name="ssdsLemma", do_preprocessing=True
         values = [preprocess_text(val, nlp) for val in values]
     df[f"{col_name}_processed"] = values
     return df
-"""
 
-"""
+
+
 def query_init_keywords(query, col_name="ssdsLemma", number=900):
     #calls SOLR & preprocessing
     json_file=get_json_from_solr(query,number)
@@ -40,7 +40,7 @@ def query_init_keywords(query, col_name="ssdsLemma", number=900):
         return False
     df_pre=process_df_col(df, col_name,nlp)
     return df_pre
-"""
+
 
 def init_vector_ext(df,col_name="ssdsLemma"):
     #initiates the word-occurence & frequency vector and list of words
@@ -81,7 +81,7 @@ def process_df_col(df, column, do_preprocessing=True, nlp_model= spacy.load('de_
     df[f"{column}_processed"] = values # TODO .loc
     return df
 
-"""
+
 def choose_n_questions(length,word_freq,n):
     #Chooses top n keywords NOT WORKING
     distance_matrix=[(length/2 - y)**2 for y in word_freq]
@@ -89,7 +89,7 @@ def choose_n_questions(length,word_freq,n):
     #tmp=sorted_distance[]
     index = distance_matrix.index(tmp)
     return index
-"""
+
 def refrain_results_ext(df,word_occ,word_freq,kw_index,choice):
     #returns updated word_occurence, frequency and dataframe to EXTERNAL
     df=df.drop(df.index[np.where(word_occ[:,kw_index]!=choice)]).reset_index(drop=True)
@@ -136,29 +136,29 @@ def iterate_through_all_services(df,word_occ_big,word_freq_big,result_list_len=6
         service+=1
     df_give["Conversations_needed"]=conversation_time
     return df_give
+"""
 
 class Keyword_check(ChatbotInterface):
     def __init__(self,solrhandler,clusterer,topic_dterminator,initial_query,maxResultSetSize,cluster_keywords=False):
-        #Paramters
+        #Pass Paramters
         self.keywords_clustering=cluster_keywords
         self.max_result_length=maxResultSetSize
         self.initial_query=initial_query
-        #Init
+        self.nlp= spacy.load('de_core_news_lg')
+
+        #Init Variables
         self.df= None
         self.words= None
         self.word_occ= None
         self.word_freq= None
-        self.result_length= None
         self.current_KW_index=None
         #open classes
         nlp = spacy.load('de_core_news_lg')
         self.solrhandler = solrhandler()
         self.clusterer = clusterer(nlp)
+        #
         self.initial_conversation(initial_query)
 
-
-
-            
     def initial_conversation(self, query,col_name="ssdsLemma",result_list_length=3):
         #initial query & first keyword
         self.query_init_keywords(query, col_name)
@@ -197,7 +197,7 @@ class Keyword_check(ChatbotInterface):
 
 
     def isFinished(self):
-        if (len(self.word_occ) <= self.result_length):
+        if (len(self.word_occ) <= self.max_result_length):
             return True
         else:
             return False
@@ -225,6 +225,11 @@ class Keyword_check(ChatbotInterface):
             raise Exception("Column Name not in query result")
             return False
         self.df = process_df_col(df, col_name, nlp)
+        if (self.keywords_clustering==True):
+            self.df["nonclustered_lemmas"]=self.df[col_name]
+            self.df[col_name]=get_keywords_clustered(self.df[col_name].astype(str),self.nlp)
+
+
 
     def init_vector(self,df, col_name="ssdsLemma"):
         # initiates the word-occurence & frequency vector and list of words
