@@ -1,0 +1,32 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jannis Pilgrim 
+
+Kalenderwoche: KW 24
+
+Datum: 15.06.2022
+
+Aufgaben abgeschlossen (seit letzter Woche)
+* Chatbot zu Silvios interface kompatibel gemacht
+* Data-Analysis Funktion für Log-DF implementiert
+* Jakobs Keyword-Clustering als Option in Keyword-Check implementiert
+* Bugixen & Refactoring
+
+Aufgaben geplant für die aktuelle Woche
+* Große Datenanalyse durchführen
+* Data-Analysis Funktion erweitern
+* Präsentation erarbeiten
+
+
+Probleme
+* Technical Debt
+* Ohne Clustering outperformt mit Clustering - warum?
+*
+
+Fragen
+*
+*
+*
+
+Weiteres
+
