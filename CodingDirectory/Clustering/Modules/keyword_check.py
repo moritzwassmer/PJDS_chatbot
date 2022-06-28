@@ -101,11 +101,16 @@ class Keyword_check(ChatbotInterface):
 
             lemma_lst = [preprocess_text(lemma_str, nlp) for lemma_str in lemma_lst]
 
-            lemma_lst = get_keywords_clustered(lemma_lst,self.nlp)
+            topics_lst = get_keywords_clustered(lemma_lst,self.nlp)
 
-            lemma_lst = [" ".join(lst) for lst in lemma_lst]
+            topics_lst = [" ".join(lst) for lst in topics_lst]
+            i=0
+            while (i<len(lemma_lst)):
+                lemma_lst[i]+=topics_lst[i]
+                i+=1
 
             self.df[f"{col_name}_processed"]=lemma_lst
+
 
 
 
