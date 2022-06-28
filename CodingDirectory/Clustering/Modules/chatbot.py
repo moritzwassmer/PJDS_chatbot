@@ -106,7 +106,7 @@ class Chatbot(ChatbotInterface):
 #             return True
 #         else:
 #             return False
-        self.isfinished = len(np.unique(self.df[self.clusterer.getClusteredColumn()].values)) == 1 or self.df.shape[0] < self.maxResultSetSize
+        self.isfinished = len(np.unique(self.df[self.clusterer.getClusteredColumn()].values)) == 1 or self.df.shape[0] <= self.maxResultSetSize
         return self.isfinished
         
     def getSelectedClusterForQuestion(self):
