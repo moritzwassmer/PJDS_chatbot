@@ -5,14 +5,19 @@ import pandas as pd
 import numpy as np
 from Modules.chatbot_interface import ChatbotInterface
 
+import Modules.solrhandler as sh
+import Modules.clusterer as cls
+import Modules.topicdeterminator as td
+import Modules.chatbot as cb
+
 class Chatbot(ChatbotInterface):
 
-    def __init__(self, solrhandler, clusterer, topicdeterminator, initial_query, maxResultSetSize):
-
+    def __init__(self, initial_query, maxResultSetSize, solrhandler = sh.SolrHandler(), clusterer = cls.Clusterer(), topicdeterminator = td.TopicDeterminator()):
         # Komponenten
-        self.solrhandler = solrhandler()
-        self.clusterer = clusterer()
-        self.topicdeterminator = topicdeterminator()
+        self.solrhandler = solrhandler
+        self.clusterer = clusterer
+        self.topicdeterminator = topicdeterminator
+        
         
         #Parameter
         self.maxResultSetSize = maxResultSetSize
