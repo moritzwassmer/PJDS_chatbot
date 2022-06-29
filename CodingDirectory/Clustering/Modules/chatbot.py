@@ -12,7 +12,7 @@ import Modules.chatbot as cb
 
 class Chatbot(ChatbotInterface):
 
-    def __init__(self, initial_query, maxResultSetSize, solrhandler = sh.SolrHandler(), clusterer = cls.Clusterer(), topicdeterminator = td.TopicDeterminator()):
+    def __init__(self, initial_query, maxResultSetSize, solrhandler = sh.SolrHandler(), clusterer = cls.Clusterer(), topicdeterminator = td.TopicDeterminator(), forceClusters = False):
         # Komponenten
         self.solrhandler = solrhandler
         self.clusterer = clusterer
@@ -20,6 +20,7 @@ class Chatbot(ChatbotInterface):
         
         
         #Parameter
+        self.forceClusters = forceClusters
         self.maxResultSetSize = maxResultSetSize
         self.decisionTrace = {}
         
@@ -68,7 +69,24 @@ class Chatbot(ChatbotInterface):
 
     def recluster(self):
         self.df = self.clusterer.run(self.df, False)
+        if self.forceClusters:
+            self.findEps()
+            
         self.df, self.df_clus = self.topicdeterminator.run(self.df)
+        
+
+    
+    def findEps(self):
+        while True:
+            
+            clusters = self.df[self.clusterer.getClusteredColumn()].values
+            if len(np.unique(clusters)) != 1 or self.isFinished():
+                break
+            else:
+                #print(clusters)
+                self.clusterer.clustering_algorithm.eps = self.clusterer.clustering_algorithm.eps/2
+                #print(self.clusterer.clustering_algorithm.eps)
+                self.recluster()
         
     def refineResultset(self, answer, recluster = False):
         """
@@ -106,7 +124,7 @@ class Chatbot(ChatbotInterface):
 #             return True
 #         else:
 #             return False
-        self.isfinished = len(np.unique(self.df[self.clusterer.getClusteredColumn()].values)) == 1 or self.df.shape[0] <= self.maxResultSetSize
+        self.isfinished = self.df.shape[0] <= self.maxResultSetSize #len(np.unique(self.df[self.clusterer.getClusteredColumn()].values)) == 1 or
         return self.isfinished
         
     def getSelectedClusterForQuestion(self):
