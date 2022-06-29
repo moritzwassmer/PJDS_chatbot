@@ -63,7 +63,7 @@ class Chatbot(ChatbotInterface):
                 break
             else:
                 #print(clusters)
-                self.clusterer.clustering_algorithm.eps = self.clusterer.clustering_algorithm.eps/2
+                self.clusterer.clustering_algorithm.eps = self.clusterer.clustering_algorithm.eps*0.9
                 #print(self.clusterer.clustering_algorithm.eps)
                 self.recluster()
         
