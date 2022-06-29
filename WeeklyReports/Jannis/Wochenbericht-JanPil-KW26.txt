@@ -1,0 +1,33 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jannis Pilgrim 
+
+Kalenderwoche: KW 26
+
+Datum: 29.06.2022
+
+Aufgaben abgeschlossen (seit vorletzter Woche)
+*  Keyword approach mit clustering dahingehend geändert, dass IMMER zwischen beidem (cluster & keyword) geschaut wird welche
+frage größten information gain hat
+*  Erste Tests dieses approaches: performt quantitativ wesentlich besser
+*  Presentation vorbereitet & durchgeführt
+* 
+
+Aufgaben geplant für die aktuelle Woche
+* Alle Approaches quantitativ (6500 queries)vergleichen
+* Mit Report anfangen
+* 
+
+
+Probleme
+* 
+* 
+*
+
+Fragen
+*
+*
+*
+
+Weiteres
+
