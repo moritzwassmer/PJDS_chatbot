@@ -1,0 +1,26 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Moritz Wassmer
+
+Aufgaben abgeschlossen (seit letzter Woche)
+- service clustering kompatibel zum log_analyzer machen
+- bugs in evaluation vom service clustering durch refactoring beheben
+- service clustering vergleichbar zu restlichen ansätzen machen (durch rekursives verringern von epsilon)
+
+Aufgaben geplant für die aktuelle Woche
+- Report/Paper anfangen (Related Work, Evaluierung)
+- Aufräumarbeiten/Refactoring/Kommentierung
+- Dokumentation?
+
+
+
+
+
+Probleme
+
+
+Fragen
+- Stelle ich direkt
+
+Weiteres
+
