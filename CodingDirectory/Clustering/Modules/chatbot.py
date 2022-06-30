@@ -46,27 +46,6 @@ class Chatbot(ChatbotInterface):
         self.df = result[0]
         self.df_clus = result[1].sort_values(by = "count", ascending=False) # TODO sekundärer sort nach index
 
-
-    # TODO in Evaluierung ausgelagert, für Testzwecke in Modul lassen
-    def findCorrectAnswer(self,targetService):
-        """
-        :return: True: targetService is in Cluster which is to be asked about False: else
-        """
-
-        # Find Target Cluster
-        clusteredColumn = self.clusterer.getClusteredColumn()
-        service = self.df.loc[self.df["id"]==str(targetService)]
-        if len(service[clusteredColumn].values) == 0:
-            raise Exception("Answer not in resultset")
-
-        targetCluster = service[clusteredColumn].values[0]
-
-        if targetCluster == self.getSelectedClusterForQuestion():
-            return True
-
-        else:
-            return False
-
     def recluster(self):
         self.df = self.clusterer.run(self.df, False)
         if self.forceClusters:
@@ -74,8 +53,8 @@ class Chatbot(ChatbotInterface):
             
         self.df, self.df_clus = self.topicdeterminator.run(self.df)
         
-
-    
+        self.df_clus = self.df_clus.sort_values(by = "count", ascending=False)
+        
     def findEps(self):
         while True:
             
@@ -84,7 +63,7 @@ class Chatbot(ChatbotInterface):
                 break
             else:
                 #print(clusters)
-                self.clusterer.clustering_algorithm.eps = self.clusterer.clustering_algorithm.eps/2
+                self.clusterer.clustering_algorithm.eps = self.clusterer.clustering_algorithm.eps*0.9
                 #print(self.clusterer.clustering_algorithm.eps)
                 self.recluster()
         
