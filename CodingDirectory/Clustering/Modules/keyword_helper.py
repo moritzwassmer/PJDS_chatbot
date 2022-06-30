@@ -148,8 +148,8 @@ def get_clusters(tokens, clustering):
     clusters = [[el[0] for el in elems if el[1] == i] for i in range(len(set(labels)))]
     return clusters
 
-def get_keywords_clustered(lemma_lst, nlp_model, clustering=DBSCAN(eps=.15, min_samples=1, metric="cosine")):
-
+def get_keywords_clustered(lemma_lst, nlp_model, eps=0.2 ):
+    clustering = DBSCAN(eps=eps, min_samples=1, metric="cosine")
     lemmas_tokens = [[tok for tok in doc] for doc in nlp_model.pipe(lemma_lst)]
     lemma_tokens_lst = get_unique_tokens(flatten_lst(lemmas_tokens))
     tokens_vectorizable = [tok for tok in lemma_tokens_lst if tok.has_vector]

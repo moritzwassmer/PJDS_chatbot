@@ -15,12 +15,13 @@ from chatbot_interface import ChatbotInterface
 
 
 class Keyword_check(ChatbotInterface):
-    def __init__(self,solrhandler,clusterer,topic_dterminator,initial_query,maxResultSetSize,cluster_keywords=False):
+    def __init__(self,solrhandler,clusterer,topic_dterminator,initial_query,maxResultSetSize,cluster_keywords=False,eps_param=0.2):
         #Pass Paramters
         self.keywords_clustering=cluster_keywords
         self.max_result_length=maxResultSetSize
         self.initial_query=initial_query
         self.nlp= spacy.load('de_core_news_lg')
+        self.epsilon=eps_param
         #Init Variables
         self.df= None
         self.words= None
@@ -101,7 +102,7 @@ class Keyword_check(ChatbotInterface):
 
             lemma_lst = [preprocess_text(lemma_str, nlp) for lemma_str in lemma_lst]
 
-            topics_lst = get_keywords_clustered(lemma_lst,self.nlp)
+            topics_lst = get_keywords_clustered(lemma_lst,self.nlp,self.epsilon)
 
             topics_lst = [" ".join(lst) for lst in topics_lst]
             i=0

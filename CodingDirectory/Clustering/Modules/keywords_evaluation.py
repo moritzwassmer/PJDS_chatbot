@@ -8,8 +8,8 @@ from keyword_check import *
 
 class Keywords_eval:
 
-    def __init__(self, solrhandler, clusterer, topic_dterminator, Keyword_check, query, maxResultSetSize):
-        self.keywords = Keyword_check(solrhandler, clusterer, topic_dterminator, query, maxResultSetSize)
+    def __init__(self, solrhandler, clusterer, topic_dterminator, Keyword_check, query, maxResultSetSize,do_kw_clustering=False,eps_param=0.2):
+        self.keywords = Keyword_check(solrhandler, clusterer, topic_dterminator, query, maxResultSetSize,do_kw_clustering,eps_param)
         self.df = None
         self.df_logs = None
         self.file_list = []
