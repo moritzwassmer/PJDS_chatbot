@@ -1,0 +1,31 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Silvio Echsle
+
+Kalenderwoche: KW 24
+
+Datum: 15.06.2022
+
+Aufgaben abgeschlossen (seit letzter Woche)
+* GUI überarbeitet
+* kompatible Chatbot zu Silvios interface kompatibel gemacht
+* Keyword-Clustering als Option in der GUI implementiert
+* Question generatiuon weiter recherchiert
+
+Aufgaben geplant für die aktuelle Woche
+* Große Datenanalyse durchführen
+* Data-Analysis Funktion erweitern
+* Präsentation erarbeiten
+
+
+Probleme
+* Generieren vs Template bleibt ein Problem
+* Ohne Clustering outperformt mit Clustering - warum?
+*
+
+Fragen
+* Wie schreibe ich eine korrekte Frage aus einem Set an Wörtern?
+* 
+*
+ 
+Weiteres

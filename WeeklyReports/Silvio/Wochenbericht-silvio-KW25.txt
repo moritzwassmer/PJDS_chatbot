@@ -1,0 +1,20 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Silvio Echsle
+
+Aufgaben abgeschlossen (seit letzter Woche)
+- Milestone 2 Präsentation
+
+Aufgaben geplant für die aktuelle Woche
+- weitere Recherche zum Fragengenerator
+- GUI aktuell halten
+
+Probleme
+- Krank geworden
+- Nicht voll produktiv
+
+Fragen
+- Wie kann die Präsentation am Ende aussehen
+
+Weiteres
+
