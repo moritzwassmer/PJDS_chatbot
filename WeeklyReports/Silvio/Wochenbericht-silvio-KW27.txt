@@ -1,0 +1,26 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Silvio Echsle
+
+Aufgaben abgeschlossen (seit letzter Woche)
+- Introduction geschrieben
+- Problem Statement geschrieben
+
+Aufgaben geplant für die aktuelle Woche
+- Lesen durch die Introduction und Problem statement in anderen papern
+- Analyse wo wir uns mit unserer Arbeit befinden
+- Suche nach belegen
+
+Probleme
+- Text ist noch nihct bereit und hat nicht die konkrete länge
+- Es fehlen Zitate im Text
+- Passt der Text zu den anderen?
+- Fragen Generator erstmal aufgeschoben
+
+Fragen
+- Reicht ein Notebook?
+- Brauchen wir ein Readme.md?
+- Wie könnte ein readme aussehen?
+
+Weiteres
+
