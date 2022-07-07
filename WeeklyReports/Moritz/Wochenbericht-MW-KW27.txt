@@ -1,0 +1,27 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Moritz Wassmer
+
+Aufgaben abgeschlossen (seit letzter Woche)
+- Erste Entwürfe für Related Work und Evaluierung
+- Titel, Authoren, und weitere Kleinigkeiten
+
+Aufgaben geplant für die aktuelle Woche
+- Report verbessern
+
+
+
+
+
+Probleme
+
+
+Fragen
+- Stelle ich direkt
+
+Weiteres
+
+wie starte ich program
+
+~/cite nichtbrechendes leerzeichen
+dynamische referenzen
