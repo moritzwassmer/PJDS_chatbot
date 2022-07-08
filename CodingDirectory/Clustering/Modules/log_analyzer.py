@@ -10,10 +10,14 @@ class Log_Analyzer():
         self.services=None
         self.questions=None
         self.mean_nResults_reduction=None
+        self.harmonic_mean_nResults_reduction=None
         self.mean_delta_nResults=None
         self.mean_delta_Rank=None
         self.mean_Turns=None
+        self.median_Turns=None
         self.means= {None}
+        self.max_turns_needed=None
+        self.conversations=None
 
 
     def run_it(self):
@@ -22,9 +26,14 @@ class Log_Analyzer():
         self.aggregate_questions()
         self.means={"Mean Turns":self.mean_Turns,
                     "Mean nResults Reduct":self.mean_nResults_reduction,
+                    "Harmonic mean nResult Reduct":self.harmonic_mean_nResults_reduction,
                     "Mean delta nResults":self.mean_delta_nResults,
-                    "Mean delta Rank": self.mean_delta_Rank}
-        return self.df,self.services,self.questions,self.means
+                    "Mean delta Rank": self.mean_delta_Rank,
+                    "Median Turns":self.median_Turns,
+                    "Max Turns needed": self.max_turns_needed
+
+                    }
+        return self.df,self.services,self.questions,self.means,self.conversations
 
     def add_deltas(self):
         nResults_reduction = []
@@ -46,8 +55,10 @@ class Log_Analyzer():
         self.df["delta_nResults"] = delta_nResults
         self.df["delta_Rank"] = delta_Rank
         self.mean_nResults_reduction=self.df[self.df["question"]!='initialQuery']["nResult_reduction"].mean()
+        self.harmonic_mean_nResults_reduction=statistics.harmonic_mean(self.df[self.df["question"]!='initialQuery']["nResult_reduction"])
         self.mean_delta_nResults = self.df[self.df["question"] != 'initialQuery']["delta_nResults"].mean()
         self.mean_delta_Rank = self.df[self.df["question"] != 'initialQuery']["delta_Rank"].mean()
+        self.max_turns_needed = self.df["t"].max()
         self.services = self.df.copy()
         self.questions=self.df.copy()
         
@@ -57,7 +68,8 @@ class Log_Analyzer():
         self.services = self.df.copy()
         self.services = self.services.groupby(["dialogId", "name"])["t"].agg('max').to_frame('turns').reset_index()
         self.mean_Turns=self.services['turns'].mean()
-
+        self.median_Turns = self.services['turns'].median()
+        self.conversations=self.services.copy()
         # self.services["turns"]=self.services_pre.groupby(["dialogId","name"])["t"].agg(turns='max')
         self.services = self.services.groupby(["name"]).agg(Count_Turns=('turns', 'count'), Min_Turns=('turns', 'min'),
                                       Mean_Turns=('turns', 'mean'), Max_Turns=('turns', 'max'))
