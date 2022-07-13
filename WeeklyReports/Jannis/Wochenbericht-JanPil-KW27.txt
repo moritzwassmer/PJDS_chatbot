@@ -1,0 +1,32 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jannis Pilgrim 
+
+Kalenderwoche: KW 27
+
+Datum: 06.07.2022
+
+Aufgaben abgeschlossen (seit vorletzter Woche)
+*  Erste Sachen für Report skizziert
+*  Alle Approaches quantitativ (6500 queries) evaluiert und verglichen
+*  Auf basis der evaluierung für alle queries parameter für KW clustering optimiert (0.2 EPS)
+*
+
+Aufgaben geplant für die aktuelle Woche
+* Analyzse erweiter (info gain, entropy etc)
+* Anschaulichen Plot designen
+* Report quasi fertig schreiben
+
+
+Probleme
+* 
+* 
+*
+
+Fragen
+*
+*
+*
+
+Weiteres
+

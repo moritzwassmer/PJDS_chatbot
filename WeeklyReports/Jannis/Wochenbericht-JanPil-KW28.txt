@@ -1,0 +1,32 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jannis Pilgrim 
+
+Kalenderwoche: KW 28
+
+Datum: 13.07.2022
+
+Aufgaben abgeschlossen (seit vorletzter Woche)
+*  quantitative Analyse-Funktion erweitert  (info gain, entropy, max turns, longest-to-be-found service)
+*  Optimalen Plottype gefunden & veranschaulicht (Violin Plot)
+*  4. Approach (alles außer 4.3) + 5.1 Geschrieben
+*
+
+Aufgaben geplant für die aktuelle Woche
+* Verbesserungen & kommentare einarbeiten
+* Eventuell noch Decision Tree Grafik bauen & einarbeiten
+* Präsentation bauen
+
+
+Probleme
+* 
+* 
+*
+
+Fragen
+*
+*
+*
+
+Weiteres
+
