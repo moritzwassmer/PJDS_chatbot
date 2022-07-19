@@ -12,10 +12,12 @@ nlp = spacy.load('de_core_news_lg')
 from sklearn.feature_extraction.text import CountVectorizer
 from chatbot_interface import ChatbotInterface
 
-
+import Modules.solrhandler as sh
+import Modules.clusterer as cls
+import Modules.topicdeterminator as td
 
 class Keyword_check(ChatbotInterface):
-    def __init__(self,solrhandler,clusterer,topic_dterminator,initial_query,maxResultSetSize,cluster_keywords=False,eps_param=0.2):
+    def __init__(self,initial_query, maxResultSetSize, solrhandler = sh.SolrHandler, clusterer = cls.Clusterer, topicdeterminator = td.TopicDeterminator,cluster_keywords=False,eps_param=0.2):
         #Pass Paramters
         self.keywords_clustering=cluster_keywords
         self.max_result_length=maxResultSetSize

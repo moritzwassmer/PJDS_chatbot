@@ -12,7 +12,7 @@ def get_df_from_json(json_file):
     data = json_file["response"]["docs"]
     return pd.DataFrame.from_dict(data)
 
-class SolrHandler:
+class SolrHandler():
 
     def __init__(self, max_elems = 1000):
         self.max_elems = max_elems
