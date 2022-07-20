@@ -67,7 +67,7 @@ class Chatbot(ChatbotInterface):
                 #print(self.clusterer.clustering_algorithm.eps)
                 self.recluster()
         
-    def refineResultset(self, answer, recluster = False):
+    def refineResultset(self, answer, recluster = True):
         """
         :param clusterId:
         :param answer: True = yes, False = no
