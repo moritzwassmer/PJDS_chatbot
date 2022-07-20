@@ -12,11 +12,11 @@ import Modules.chatbot as cb
 
 class Chatbot(ChatbotInterface):
 
-    def __init__(self, initial_query, maxResultSetSize, solrhandler = sh.SolrHandler(), clusterer = cls.Clusterer(), topicdeterminator = td.TopicDeterminator(), forceClusters = False):
+    def __init__(self, initial_query, maxResultSetSize, solrhandler = sh.SolrHandler, clusterer = cls.Clusterer, topicdeterminator = td.TopicDeterminator, forceClusters = False):
         # Komponenten
-        self.solrhandler = solrhandler
-        self.clusterer = clusterer
-        self.topicdeterminator = topicdeterminator
+        self.solrhandler = solrhandler()
+        self.clusterer = clusterer()
+        self.topicdeterminator = topicdeterminator()
         
         
         #Parameter
@@ -64,7 +64,7 @@ class Chatbot(ChatbotInterface):
             else:
                 #print(clusters)
                 self.clusterer.clustering_algorithm.eps = self.clusterer.clustering_algorithm.eps*0.9
-                #print(self.clusterer.clustering_algorithm.eps)
+                print(self.clusterer.clustering_algorithm.eps)
                 self.recluster()
         
     def refineResultset(self, answer, recluster = False):
@@ -89,8 +89,8 @@ class Chatbot(ChatbotInterface):
                 self.df_clus[self.clusterer.getClusteredColumn()] != self.getSelectedClusterForQuestion()]  # .reset_index()
 
         # TODO Reclustering und Topic Determination
-        if recluster:
-            self.recluster()
+        #if recluster:
+        self.recluster()
 
     def isFinished(self):
         # return true if finished
