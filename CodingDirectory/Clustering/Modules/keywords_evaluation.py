@@ -9,7 +9,9 @@ from keyword_check import *
 class Keywords_eval:
 
     def __init__(self, solrhandler, clusterer, topic_dterminator, Keyword_check, query, maxResultSetSize,do_kw_clustering=False,eps_param=0.2):
-        self.keywords = Keyword_check(solrhandler, clusterer, topic_dterminator, query, maxResultSetSize,do_kw_clustering,eps_param)
+        #function call, first query call is irrelevant hereby
+        self.keywords = Keyword_check(query,maxResultSetSize,solrhandler, clusterer, topic_dterminator,  do_kw_clustering,eps_param)
+        #variable init
         self.df = None
         self.df_logs = None
         self.file_list = []
@@ -27,10 +29,11 @@ class Keywords_eval:
     def initialize_evaluation(self, df, result_list=3):
         """
         :param df: dataframe in format of moritz dataset of original queries
-        :param result_list_len: optional param to specify at what No of results to stop
+        :param result_list: optional param to specify at what No of results to stop
 
         :return: return log DF
         """
+        #fill variable with eval-dataset
         self.df = df
         self.test_dataset_2_keyword(df, result_list)
         self.conclude_logs()
@@ -45,12 +48,11 @@ class Keywords_eval:
         # i = counter over initial query
         i = 0
         while i < len(df):
-
-
             try:
-                # fetches params for specific query
+                # fetches params for specific query from i-th row of eval-dataset
                 df_query, occ_query, freq_query, words_query, index = self.keywords.initial_conversation(
                     query=df["initialQuestion"].iloc[i], col_name="ssdsLemma", result_list_length=self.max_result_length)
+                #a is list, if service of resultset matches searched for ground-truth-service from eval-dataset
                 a = df_query["id"] == str(df["documentId"].iloc[i])
             except Exception as e:
                 if (str(e) == 'response'):
@@ -64,9 +66,10 @@ class Keywords_eval:
                     continue
                 else:
                     print(e)
-                    self.skip_one_row(i)
-                    i += 1
-                    continue
+                    #self.skip_one_row(i)
+                    #i += 1
+                    #continue
+                    break
 
             if len(a[a]) == 0:
                 #if ==0 this means ground-truth-service is not in query-result
@@ -76,19 +79,19 @@ class Keywords_eval:
                 service_keys = occ_query[a][0]
                 # t = counter over conversation turns
                 t = 0
-
+                #initial rank of ground truth service
                 rank = self.keywords.df[self.keywords.df["id"] == str(df["documentId"].iloc[i])].index.values[0]
                 self.append_val_to_list(i, t, len(self.keywords.word_occ), (rank + 1), "initialQuery", None)
                 # index will be type(list) if questioning resulted in final suggestions
                 while type(index) is int:
                     choice = (service_keys[index])
                     t += 1
-
+                    #based on groud-truth-services KW-occurence refine the resultset
                     self.keywords.refineResultset(choice)
                     rank = self.keywords.df[self.keywords.df["id"] == str(df["documentId"].iloc[i])].index.values[0]
                     self.append_val_to_list(i, t, len(self.keywords.word_occ), (rank + 1),
                                             str("Geht es bei Ihrem Anliegen um " + words_query[index]) + "?", choice)
-
+                    #get next question
                     index = self.keywords.next_question()
 
 
@@ -101,7 +104,6 @@ class Keywords_eval:
 
         :return: summs up all lists into a df of logs
         """
-
         self.df_logs = pd.DataFrame(
             list(zip(self.file_list, self.dialogId_list, self.id_list, self.t_list, self.service_name_list,
                      self.query_list, self.question_list, self.answer_list, self.rank_list, self.nResults_list)),
@@ -134,7 +136,7 @@ class Keywords_eval:
         self.file_list.append(self.df['file'].iloc[i])
         self.dialogId_list.append(self.df['dialogId'].iloc[i])
         self.id_list.append(i)
-        self.t_list.append(0)
+        self.t_list.append(None)
         self.service_name_list.append(self.df['name'].iloc[i])
         self.query_list.append(self.df['initialQuestion'].iloc[i])
         self.nResults_list.append(None)

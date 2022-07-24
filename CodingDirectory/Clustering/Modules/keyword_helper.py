@@ -11,23 +11,44 @@ from solrhandler import SolrHandler
 
 
 def init_vector_ext(df, col_name="ssdsLemma"):
+    """
+    NOT USED IN LIVE CHATBOT
+    :param df: the solr-df
+    :param col_name: to be used column
+    :return: word occurences, list & freq
+    """
     # initiates the word-occurence & frequency vector and list of words
     vectorizer = CountVectorizer()
+    # counts occurences
     a = vectorizer.fit_transform(df[f"{col_name}_processed"]).toarray()
+    # boolean of weither or nor a bigger than 0
     b = a > 0
+    # bool to int
     word_occ = b.astype(int)
+    # collect all words
     words = vectorizer.get_feature_names()
+    # sums word frequencie
     word_freq = word_occ.sum(axis=0).tolist()
     return word_occ, words, word_freq
 
 
 def choose_question(length: object, word_freq: object) -> object:
+    """
+
+    :param length: length of current resultset
+    :param word_freq: frequency matrix
+    :return: index of KW for next question
+    """
     # Chooses Index of Keywords with occurs closest to 50%
+    #measure each occurence's quared distance to half length
     distance_matrix = [(length / 2 - y) ** 2 for y in word_freq]
+    #get min distance
     tmp = min(distance_matrix)
+    #get ID of min distance
     index = distance_matrix.index(tmp)
     return index
 
+#not me, imported from other function
 
 def clean_text(text, nlp_model):
     text = re.sub("<[^<]+?>", " ", text)
@@ -113,6 +134,8 @@ def iterate_through_all_services(df, word_occ_big, word_freq_big, result_list_le
         service += 1
     df_give["Conversations_needed"] = conversation_time
     return df_give
+
+#Jakob
 
 def preprocess_text(text, nlp_model):
     doc = nlp_model(text)

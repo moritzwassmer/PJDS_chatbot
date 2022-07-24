@@ -3,12 +3,12 @@
 
 import pandas as pd
 import numpy as np
-from Modules.chatbot_interface import ChatbotInterface
+from chatbot_interface import ChatbotInterface
 
-import Modules.solrhandler as sh
-import Modules.clusterer as cls
-import Modules.topicdeterminator as td
-import Modules.chatbot as cb
+import solrhandler as sh
+import clusterer as cls
+import topicdeterminator as td
+import chatbot as cb
 
 class Chatbot(ChatbotInterface):
 
