@@ -4,7 +4,6 @@
 import pandas as pd
 import numpy as np
 from chatbot_interface import ChatbotInterface
-
 import solrhandler as sh
 import clusterer as cls
 import topicdeterminator as td
@@ -47,6 +46,9 @@ class Chatbot(ChatbotInterface):
         self.df_clus = result[1].sort_values(by = "count", ascending=False) # TODO sekundärer sort nach index
 
     def recluster(self):
+        #TODO: tfidf embedding-> clustering kmeans=2 -> semantisches Embedding - wort bestimmen je cluster
+        #kmeans = 2
+
         self.df = self.clusterer.run(self.df, False)
         if self.forceClusters:
             self.findEps()
