@@ -13,8 +13,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from chatbot_interface import ChatbotInterface
 
 import solrhandler as sh
-import clusterer as cls
-import topicdeterminator as td
+
 
 class Keyword_check(ChatbotInterface):
     def __init__(self,initial_query, maxResultSetSize, solrhandler = sh.SolrHandler,cluster_keywords=True,clus_algo=DBSCAN(eps=0.2, min_samples=1, metric="cosine" )):
@@ -30,6 +29,7 @@ class Keyword_check(ChatbotInterface):
         self.word_occ= None
         self.word_freq= None
         self.current_KW_index=None
+        self.df_questionservice = None
         #open classes
         nlp = spacy.load('de_core_news_lg')
         self.solrhandler = solrhandler()
