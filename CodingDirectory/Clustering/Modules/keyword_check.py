@@ -3,7 +3,7 @@
 
 
 
-
+from sklearn.cluster import DBSCAN
 from keyword_helper import  *
 import spacy
 import re
@@ -17,13 +17,13 @@ import clusterer as cls
 import topicdeterminator as td
 
 class Keyword_check(ChatbotInterface):
-    def __init__(self,initial_query, maxResultSetSize, solrhandler = sh.SolrHandler, clusterer = cls.Clusterer, topicdeterminator = td.TopicDeterminator,cluster_keywords=False,eps_param=0.2):
+    def __init__(self,initial_query, maxResultSetSize, solrhandler = sh.SolrHandler,cluster_keywords=True,clus_algo=DBSCAN(eps=0.2, min_samples=1, metric="cosine" )):
         #Pass Paramters
         self.keywords_clustering=cluster_keywords
         self.max_result_length=maxResultSetSize
         self.initial_query=initial_query
         self.nlp= spacy.load('de_core_news_lg')
-        self.epsilon=eps_param
+        self.clus_algo=clus_algo
         #Init Variables
         self.df= None
         self.words= None
@@ -33,7 +33,6 @@ class Keyword_check(ChatbotInterface):
         #open classes
         nlp = spacy.load('de_core_news_lg')
         self.solrhandler = solrhandler()
-        self.clusterer = clusterer(nlp)
         #
         self.initial_conversation(initial_query)
 
@@ -133,7 +132,7 @@ class Keyword_check(ChatbotInterface):
             #preprocess every services's keyvalue seperately
             lemma_lst = [preprocess_text(lemma_str, nlp) for lemma_str in lemma_lst]
             #cluster
-            topics_lst = get_keywords_clustered(lemma_lst,self.nlp,self.epsilon)
+            topics_lst = get_keywords_clustered(lemma_lst,self.nlp,self.clus_algo)
             topics_lst = [" ".join(lst) for lst in topics_lst]
             i=0
             #append topics & original keywords together

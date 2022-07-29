@@ -4,14 +4,16 @@ import statistics
 import numpy as np
 import pandas as pd
 from keyword_check import *
+from sklearn.cluster import DBSCAN
 
 
 class Keywords_eval:
 
-    def __init__(self, solrhandler, clusterer, topic_dterminator, Keyword_check, query, maxResultSetSize,do_kw_clustering=False,eps_param=0.2):
+    def __init__(self, solrhandler, Keyword_check, query, maxResultSetSize,do_kw_clustering=True,clus_algo=DBSCAN(eps=0.2, min_samples=1, metric="cosine" )):
         #function call, first query call is irrelevant hereby
-        self.keywords = Keyword_check(query,maxResultSetSize,solrhandler, clusterer, topic_dterminator,  do_kw_clustering,eps_param)
+        self.keywords = Keyword_check(query,maxResultSetSize,solrhandler, do_kw_clustering,clus_algo)
         #variable init
+        self.clus_algo=clus_algo
         self.df = None
         self.df_logs = None
         self.file_list = []
@@ -26,7 +28,7 @@ class Keywords_eval:
         self.nResults_list = []
         self.max_result_length=maxResultSetSize
 
-    def initialize_evaluation(self, df, result_list=3):
+    def initialize_evaluation(self, df, result_list=1):
         """
         :param df: dataframe in format of moritz dataset of original queries
         :param result_list: optional param to specify at what No of results to stop
@@ -66,10 +68,10 @@ class Keywords_eval:
                     continue
                 else:
                     print(e)
-                    #self.skip_one_row(i)
-                    #i += 1
-                    #continue
-                    break
+                    self.skip_one_row(i)
+                    i += 1
+                    continue
+
 
             if len(a[a]) == 0:
                 #if ==0 this means ground-truth-service is not in query-result
