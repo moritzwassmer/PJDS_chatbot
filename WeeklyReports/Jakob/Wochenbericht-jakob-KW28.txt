@@ -1,0 +1,28 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jakob Kemmler
+
+Kalenderwoche: KW 28
+
+Datum: 13.07.2022
+
+Aufgaben abgeschlossen (seit vorletzter Woche)
+* finalalisieren des Clustering-Ansatzes im Methoden Teil des finalen Reports
+
+Aufgaben geplant für die aktuelle Woche
+* Related Work zu Decision Trees und Document Clustering
+* Umschreiben der Problem Description
+
+
+Probleme
+* 
+* 
+*
+
+Fragen
+*
+*
+*
+
+Weiteres
+

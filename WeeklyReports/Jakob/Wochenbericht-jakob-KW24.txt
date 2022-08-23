@@ -1,0 +1,26 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jakob Kemmler
+
+Kalenderwoche: KW 24
+
+Datum: 15.06.2022
+
+Aufgaben abgeschlossen (seit letzter Woche)
+* Brainstorming Problem mit Embedding zu lösen
+
+Aufgaben geplant für die aktuelle Woche
+* vorbereitng der Meilensteinrepresentation
+* Recherche zum Fine-Tuning von semantischem Embedding
+
+
+Probleme
+* Der Clustering ansatz outperformed wiedererwarten den Ansatz ohne Clustering
+
+Fragen
+*
+*
+*
+
+Weiteres
+

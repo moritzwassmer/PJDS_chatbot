@@ -7,11 +7,11 @@ Kalenderwoche: KW 22
 Datum: 1.6.2022
 
 Aufgaben abgeschlossen (seit letzter Woche)
-* Parameterstudie des Clusterings und qualitative Analyse der Outputs
-*
+* Parameterstudie des Clusterings mit DBSCAN und TFIDF
+* qualitative Analyse der Outputs
 
 Aufgaben geplant für die aktuelle Woche
-* Implementation eine KLasse für das semantische Clusters von Lemmas
+* Implementation einer Klasse für das semantische Clustering von Lemmas
 *
 *
 

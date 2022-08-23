@@ -1,0 +1,28 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jakob Kemmler
+
+Kalenderwoche: KW 27
+
+Datum: 06.07.2022
+
+Aufgaben abgeschlossen (seit vorletzter Woche)
+*  Debugging der Klasse für das semantische Clustern
+* Outline für Clustering-Ansatz im Methoden teil des finalen Reports
+
+Aufgaben geplant für die aktuelle Woche
+* finalalisieren des Clustering-Ansatzes im Methoden Teil des finalen Reports
+
+
+Probleme
+* 
+* 
+*
+
+Fragen
+*
+*
+*
+
+Weiteres
+

@@ -1,0 +1,26 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jakob Kemmler
+
+Kalenderwoche: KW 23
+
+Datum: 07.06.2022
+
+Aufgaben abgeschlossen (seit letzter Woche)
+* Implementation einer Klasse für das semantische Clustering von Lemmas
+* Vergleich verschiedener Embeddings (Spacy ist Favorit)
+
+Aufgaben geplant für die aktuelle Woche
+* Brainstorming Problem mit Embedding zu lösen
+
+
+Probleme
+* Selbst Spacy findet aussagekräftige Representationen für nur ca 50% der Lemmas
+
+Fragen
+*
+*
+*
+
+Weiteres
+

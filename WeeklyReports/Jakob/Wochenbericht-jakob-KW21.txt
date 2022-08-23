@@ -8,11 +8,11 @@ Datum: 25.5.2022
 
 Aufgaben abgeschlossen (seit letzter Woche)
 * Implementierung einer Klasse für Clustering
-*
+* mit TF-IDF als Embedding
 
 Aufgaben geplant für die aktuelle Woche
-* Parameterstudie des Clusterings und qualitative Analyse der Outputs
-*
+* Parameterstudie des Clusterings mit DBSCAN und TFIDF
+* qualitative Analyse der Outputs
 *
 
 Probleme

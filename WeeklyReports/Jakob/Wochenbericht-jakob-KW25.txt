@@ -1,0 +1,29 @@
+ProjektName: DataScience Projekt SoSe 2022
+
+Name: Jakob Kemmler
+
+Kalenderwoche: KW 26
+
+Datum: 29.06.2022
+
+Aufgaben abgeschlossen (seit vorletzter Woche)
+*  Recherche zum Fine-Tuning von semantischem Embedding
+* 
+
+Aufgaben geplant für die aktuelle Woche
+* Erstellen eines Notebooks zu Fine-Tunen verschiedener semantischen Embeddings
+* Vergeleich versch fine-getunter Embeddings
+
+
+Probleme
+* Woher nehme ich die Daten für das Fine-Tuning
+* 
+*
+
+Fragen
+*
+*
+*
+
+Weiteres
+
